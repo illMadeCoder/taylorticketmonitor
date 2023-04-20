@@ -5,7 +5,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add this inside the `ConfigureServices` method
-builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql("Server=eventprices.postgres.database.azure.com;Database=events;Port=5432;User Id=illm@eventprices;Password=Iwillevolve21#!;SSL Mode=Require;Trust Server Certificate=true"));
+builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Add services to the container.
 builder.Services.AddRazorPages();
