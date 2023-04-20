@@ -10,7 +10,7 @@ public class IndexModel : PageModel
         _context = context;
     }
 
-    public IList<YourModel> Data { get; set; }
+    public IList<Event> Data { get; set; }
 
     public void OnGet()
     {

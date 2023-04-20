@@ -14,6 +14,7 @@
                 <th>insertdatetime</th>                
                 <th>rowid</th>
                 <th>url</th>
+                <th>last price</th>
                 <th>price</th>
                 <th>img</th>
                 <!-- Add more table headers based on your table schema -->
@@ -22,12 +23,14 @@
         <tbody>
             @foreach (var item in Model.Data)
             {
+                var prevprice = (Model.Data.Where(x => x.rowid == item.rowid && x.url == item.url && x.id != item.id).MaxBy(x => x.insertdatetime)?.price ?? 0);
                 <tr>
                     <td data-label="id">@item.id</td>
                     <td data-label="insertdatetime">@item.insertdatetime</td>                    
                     <td data-label="rowid">@item.rowid</td>
                     <td data-label="url">@item.url</td>
-                    <td data-label="price">$@item.price</td>
+                    <td data-label="last price">$prevprice</td>
+                    <td data-label="price">$@item.price</td>                    
                     <td data-label="img"><img src="@item.img"></td>
                     <!-- Add more table cells based on your table schema -->
                 </tr>
