@@ -3,32 +3,35 @@
 @{
     ViewData["Title"] = "Table Monitor";
 }
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <h1>Table Monitor</h1>
-<table border="1">
-    <thead>
-        <tr>
-            <th>id</th>
-            <th>price</th>
-            <th>url</th>
-            <th>rowid</th>
-            <th>insertdatetime</th>
-            <th>img</th>
-            <!-- Add more table headers based on your table schema -->
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.Data)
-        {
+<div class="responsive-table">
+    <table>
+        <thead>
             <tr>
-                <td>@item.id</td>
-                <td>$@item.price</td>
-                <td>@item.url</td>
-                <td>@item.rowid</td>
-                <td>@item.insertdatetime</td>
-                <td><img src="@item.img"></td>
-                <!-- Add more table cells based on your table schema -->
+                <th>id</th>
+                <th>insertdatetime</th>                
+                <th>rowid</th>
+                <th>url</th>
+                <th>price</th>
+                <th>img</th>
+                <!-- Add more table headers based on your table schema -->
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Data)
+            {
+                <tr>
+                    <td data-label="id">@item.id</td>
+                    <td data-label="insertdatetime">@item.insertdatetime</td>                    
+                    <td data-label="rowid">@item.rowid</td>
+                    <td data-label="url">@item.url</td>
+                    <td data-label="price">$@item.price</td>
+                    <td data-label="img"><img src="@item.img"></td>
+                    <!-- Add more table cells based on your table schema -->
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -20,3 +20,68 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+
+
+    /* Responsive table styles */
+    .responsive-table {
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        -ms-overflow-style: -ms-autohiding-scrollbar;
+    }
+
+    .responsive-table table {
+        width: 100%;
+        margin-bottom: 1rem;
+        border-collapse: collapse;
+    }
+
+    .responsive-table th,
+    .responsive-table td {
+        padding: 0.75rem;
+        vertical-align: top;
+        border-top: 1px solid #dee2e6;
+    }
+
+    .responsive-table thead th {
+        vertical-align: bottom;
+        border-bottom: 2px solid #dee2e6;
+    }
+
+    .responsive-table tbody + tbody {
+        border-top: 2px solid #dee2e6;
+    }
+
+    /* Style for images */
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+
+    /* Media query for small screens */
+    @media (max-width: 767px) {
+        .responsive-table thead {
+            display: none;
+        }
+
+        .responsive-table tr {
+            display: block;
+        }
+
+        .responsive-table td {
+            display: block;
+            text-align: right;
+        }
+
+        .responsive-table td::before {
+            content: attr(data-label);
+            float: left;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .responsive-table td:last-child {
+            border-bottom: 2px solid #dee2e6;
+        }
+    }
