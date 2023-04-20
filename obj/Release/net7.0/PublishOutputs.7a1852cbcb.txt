@@ -1,0 +1,12 @@
+C:\Users\illma\taylormonitor\TableMonitor\publish\TableMonitor.exe
+C:\Users\illma\taylormonitor\TableMonitor\publish\appsettings.Development.json
+C:\Users\illma\taylormonitor\TableMonitor\publish\appsettings.json
+C:\Users\illma\taylormonitor\TableMonitor\publish\TableMonitor.dll
+C:\Users\illma\taylormonitor\TableMonitor\publish\TableMonitor.deps.json
+C:\Users\illma\taylormonitor\TableMonitor\publish\TableMonitor.runtimeconfig.json
+C:\Users\illma\taylormonitor\TableMonitor\publish\TableMonitor.pdb
+C:\Users\illma\taylormonitor\TableMonitor\publish\Microsoft.EntityFrameworkCore.dll
+C:\Users\illma\taylormonitor\TableMonitor\publish\Microsoft.EntityFrameworkCore.Abstractions.dll
+C:\Users\illma\taylormonitor\TableMonitor\publish\Microsoft.EntityFrameworkCore.Relational.dll
+C:\Users\illma\taylormonitor\TableMonitor\publish\Npgsql.dll
+C:\Users\illma\taylormonitor\TableMonitor\publish\Npgsql.EntityFrameworkCore.PostgreSQL.dll
