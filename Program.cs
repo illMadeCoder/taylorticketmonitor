@@ -4,15 +4,15 @@ using Npgsql.EntityFrameworkCore.PostgreSQL;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Add this inside the `ConfigureServices` method
 
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseNpgsql(builder.Configuration["DefaultConnection"]));
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 
 var app = builder.Build();
-
-// Add this inside the `ConfigureServices` method
-builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(app.Configuration.GetConnectionString("DefaultConnection")));
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
