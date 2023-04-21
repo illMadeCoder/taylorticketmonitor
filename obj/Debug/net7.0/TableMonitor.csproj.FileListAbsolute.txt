@@ -40,3 +40,10 @@ C:\Users\illma\taylormonitor\TableMonitor\bin\Debug\net7.0\publish\appsettings.D
 C:\Users\illma\taylormonitor\TableMonitor\bin\Debug\net7.0\publish\appsettings.json
 C:\Users\illma\taylormonitor\TableMonitor\bin\Debug\net7.0\publish\TableMonitor.deps.json
 C:\Users\illma\taylormonitor\TableMonitor\bin\Debug\net7.0\publish\TableMonitor.runtimeconfig.json
+C:\Users\illma\taylormonitor\TableMonitor\bin\Debug\net7.0\Azure.Core.dll
+C:\Users\illma\taylormonitor\TableMonitor\bin\Debug\net7.0\Azure.Data.AppConfiguration.dll
+C:\Users\illma\taylormonitor\TableMonitor\bin\Debug\net7.0\Azure.Messaging.EventGrid.dll
+C:\Users\illma\taylormonitor\TableMonitor\bin\Debug\net7.0\Azure.Security.KeyVault.Secrets.dll
+C:\Users\illma\taylormonitor\TableMonitor\bin\Debug\net7.0\Microsoft.Bcl.AsyncInterfaces.dll
+C:\Users\illma\taylormonitor\TableMonitor\bin\Debug\net7.0\Microsoft.Extensions.Configuration.AzureAppConfiguration.dll
+C:\Users\illma\taylormonitor\TableMonitor\bin\Debug\net7.0\System.Memory.Data.dll
