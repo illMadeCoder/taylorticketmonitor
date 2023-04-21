@@ -66,7 +66,7 @@ ViewData["Title"] = "🌟 Taylor Ticket Watch 🌟";
                     <td data-label="🕒">@GetRelativeTime(item.insertdatetime)</td>                                        
                     <td data-label="✅">@(!Model.RmEvents.Any(x => x.rowid == item.rowid))</td>
                     <td data-label="💵">$@prevprice -> $@item.price</td>                    
-                    <td data-label="img"><img src="@item.img"></td>
+                    <td data-label=""><img src="@item.img"></td>
                 </tr>
             }
         </tbody>
