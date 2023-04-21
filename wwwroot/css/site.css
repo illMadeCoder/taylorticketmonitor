@@ -18,6 +18,20 @@ html {
   min-height: 100%;
 }
 
+    /* Cute scrollbar styling */
+    ::-webkit-scrollbar {
+        width: 12px;
+    }
+    ::-webkit-scrollbar-track {
+        background-color: #FFEBF7;
+        border-radius: 10px;
+    }
+    ::-webkit-scrollbar-thumb {
+        background-color: #E83D84;
+        border-radius: 10px;
+        border: 3px solid #FFEBF7;
+    }
+
 body {
   margin-bottom: 60px;
   background-color: #3f0026;

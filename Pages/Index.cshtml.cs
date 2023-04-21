@@ -15,7 +15,7 @@ public class IndexModel : PageModel
 
     public void OnGet()
     {
-        Data = _context.events.ToList().OrderByDescending(x => x.insertdatetime).ToList();
+        Data = _context.events.ToList();
         RmEvents = _context.rmEvents.ToList();
     }
 }

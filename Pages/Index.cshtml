@@ -6,15 +6,31 @@ ViewData["Title"] = "🌟 Taylor Ticket Watch 🌟";
 }
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+@functions {
+    public string GetRelativeTime(DateTime date)
+    {                
+        TimeSpan timeSpan = DateTime.Now.ToUniversalTime() - date;
+
+        if (timeSpan.TotalDays > 1)
+            return $"{(int)timeSpan.TotalDays} days ago";
+        if (timeSpan.TotalHours > 1)
+            return $"{(int)timeSpan.TotalHours} hours ago";
+        if (timeSpan.TotalMinutes > 1)
+            return $"{(int)timeSpan.TotalMinutes} minutes ago";
+        if (timeSpan.TotalSeconds > 1)
+            return $"{(int)timeSpan.TotalSeconds} seconds ago";
+
+        return "Just now";
+    }
+}
+
 <h1>🌟 Taylor Ticket Watch 🌟</h1>
 <div class="responsive-table">
     <table>
         <thead>
             <tr>
-                <th>🆔</th>
-                <th>🕒 Added</th>                
-                <th>🎫 Row</th>
                 <th>🔗 URL</th>
+                <th>🕒 Added</th>                                
                 <th>✅ Still available</th>
                 <th>💲 Last price</th>
                 <th>💲 Price</th>
@@ -23,9 +39,9 @@ ViewData["Title"] = "🌟 Taylor Ticket Watch 🌟";
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model.Data)
+            @foreach (var item in Model.Data.OrderByDescending(x => x.insertdatetime).ToList())
             {
-                var prevprice = (Model.Data.Where(x => x.rowid == item.rowid && x.url == item.url && x.id != item.id).MaxBy(x => x.insertdatetime)?.price ?? 0);
+                var prevprice = (Model.Data.OrderByDescending(x => x.insertdatetime).Where(x => x.rowid == item.rowid && x.url == item.url && x.id != item.id).MaxBy(x => x.insertdatetime)?.price ?? 0);
                 string cityPattern = @"taylor-swift-(\w+)-tickets";
                 string datePattern = @"tickets-(\d+-\d+-\d+)";
 
@@ -35,10 +51,8 @@ ViewData["Title"] = "🌟 Taylor Ticket Watch 🌟";
                 string city = cityMatch.Success ? cityMatch.Groups[1].Value : "Unknown";
                 string date = dateMatch.Success ? dateMatch.Groups[1].Value : "Unknown";
                 <tr>
-                    <td data-label="🆔">@item.id</td>
-                    <td data-label="🕒 Added">@item.insertdatetime</td>                    
-                    <td data-label="🎫 Row">@item.rowid</td>
                     <td data-label="🔗 URL"><a href="@item.url">@city @date</a></td>
+                    <td data-label="🕒 Added">@GetRelativeTime(item.insertdatetime)</td>                                        
                     <td data-label="✅ Still available">@(!Model.RmEvents.Any(x => x.rowid == item.rowid))</td>
                     <td data-label="💲 Last price">$@prevprice</td>
                     <td data-label="💲 Price">$@item.price</td>                    
