@@ -39,12 +39,12 @@ ViewData["Title"] = "🌟 Taylor Ticket Watch 🌟";
     <table>
         <thead>
             <tr>
-                <th>🔗 URL</th>
-                <th>🕒 Added</th>                                
-                <th>✅ Still available</th>
-                <th>💲 Last price</th>
-                <th>💲 Price</th>
-                <th>📸 Image</th>
+                <th>🆔</th>
+                <th>🔗</th>
+                <th>🕒</th>                                
+                <th>✅</th>
+                <th>💵</th>
+                <th>📸</th>
                 <!-- Add more table headers based on your table schema -->
             </tr>
         </thead>
@@ -61,13 +61,12 @@ ViewData["Title"] = "🌟 Taylor Ticket Watch 🌟";
                 string city = cityMatch.Success ? cityMatch.Groups[1].Value : "Unknown";
                 string date = dateMatch.Success ? dateMatch.Groups[1].Value : "Unknown";
                 <tr>
-                    <td data-label="RowID"><a href="@item.rowid">@city @date</a></td>
+                    <td data-label="🆔">@item.rowid</td>
                     <td data-label="🔗"><a href="@item.url">@city @date</a></td>
                     <td data-label="🕒">@GetRelativeTime(item.insertdatetime)</td>                                        
                     <td data-label="✅">@(!Model.RmEvents.Any(x => x.rowid == item.rowid))</td>
-                    <td data-label="Last price">$@prevprice</td>
-                    <td data-label="Price">$@item.price</td>                    
-                    <td data-label="📸 Image"><img src="@item.img"></td>
+                    <td data-label="💵">$@prevprice -> $@item.price</td>                    
+                    <td data-label="📸"><img src="@item.img"></td>
                 </tr>
             }
         </tbody>
