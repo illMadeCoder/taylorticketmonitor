@@ -6,7 +6,7 @@ using Microsoft.Extensions.Configuration;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add this inside the `ConfigureServices` method
-builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("POSTGRESQLCONNSTR_DefaultConnection")));
 
 // Add services to the container.
 builder.Services.AddRazorPages();
