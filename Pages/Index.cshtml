@@ -61,11 +61,12 @@ ViewData["Title"] = "🌟 Taylor Ticket Watch 🌟";
                 string city = cityMatch.Success ? cityMatch.Groups[1].Value : "Unknown";
                 string date = dateMatch.Success ? dateMatch.Groups[1].Value : "Unknown";
                 <tr>
-                    <td data-label="🔗 URL"><a href="@item.url">@city @date</a></td>
-                    <td data-label="🕒 Added">@GetRelativeTime(item.insertdatetime)</td>                                        
-                    <td data-label="✅ Still available">@(!Model.RmEvents.Any(x => x.rowid == item.rowid))</td>
-                    <td data-label="💲 Last price">$@prevprice</td>
-                    <td data-label="💲 Price">$@item.price</td>                    
+                    <td data-label="RowID"><a href="@item.rowid">@city @date</a></td>
+                    <td data-label="🔗"><a href="@item.url">@city @date</a></td>
+                    <td data-label="🕒">@GetRelativeTime(item.insertdatetime)</td>                                        
+                    <td data-label="✅">@(!Model.RmEvents.Any(x => x.rowid == item.rowid))</td>
+                    <td data-label="Last price">$@prevprice</td>
+                    <td data-label="Price">$@item.price</td>                    
                     <td data-label="📸 Image"><img src="@item.img"></td>
                 </tr>
             }
