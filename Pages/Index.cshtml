@@ -25,6 +25,16 @@ ViewData["Title"] = "🌟 Taylor Ticket Watch 🌟";
 }
 
 <h1>🌟 Taylor Ticket Watch 🌟</h1>
+@* <p id="priceStats" style="text-align:center;"></p>
+@{
+    var averagePrice = Model.Data.Where(item => item.insertdatetime.Date > DateTime.Today.AddDays(-1).Date).Average(item => item.price);
+    var yesterdayAveragePrice = Model.Data.Where(item => item.insertdatetime.Date == DateTime.Today.AddDays(-1).Date).Average(item => item.price);
+    var averageDifference = Model.Data.
+    string priceTrend = averagePrice > yesterdayAveragePrice ? "📈" : "📉";
+}
+<script>
+    document.getElementById("priceStats").innerHTML = "Average Yesterday: $@yesterdayAveragePrice.ToString("F2") Today: $@averagePrice.ToString("F2") Trend: @priceTrend";
+</script> *@
 <div class="responsive-table">
     <table>
         <thead>
