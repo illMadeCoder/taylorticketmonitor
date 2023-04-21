@@ -1,22 +1,24 @@
 ﻿@page
+@using System.Text.RegularExpressions;
 @model IndexModel
 @{
-    ViewData["Title"] = "Table Monitor";
+ViewData["Title"] = "🌟 Taylor Ticket Watch 🌟";
 }
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<h1>Table Monitor</h1>
+<h1>🌟 Taylor Ticket Watch 🌟</h1>
 <div class="responsive-table">
     <table>
         <thead>
             <tr>
-                <th>id</th>
-                <th>insertdatetime</th>                
-                <th>rowid</th>
-                <th>url</th>
-                <th>last price</th>
-                <th>price</th>
-                <th>img</th>
+                <th>🆔</th>
+                <th>🕒 Added</th>                
+                <th>🎫 Row</th>
+                <th>🔗 URL</th>
+                <th>✅ Still available</th>
+                <th>💲 Last price</th>
+                <th>💲 Price</th>
+                <th>📸 Image</th>
                 <!-- Add more table headers based on your table schema -->
             </tr>
         </thead>
@@ -24,15 +26,23 @@
             @foreach (var item in Model.Data)
             {
                 var prevprice = (Model.Data.Where(x => x.rowid == item.rowid && x.url == item.url && x.id != item.id).MaxBy(x => x.insertdatetime)?.price ?? 0);
+                string cityPattern = @"taylor-swift-(\w+)-tickets";
+                string datePattern = @"tickets-(\d+-\d+-\d+)";
+
+                Match cityMatch = Regex.Match(item.url, cityPattern);
+                Match dateMatch = Regex.Match(item.url, datePattern);
+
+                string city = cityMatch.Success ? cityMatch.Groups[1].Value : "Unknown";
+                string date = dateMatch.Success ? dateMatch.Groups[1].Value : "Unknown";
                 <tr>
-                    <td data-label="id">@item.id</td>
-                    <td data-label="insertdatetime">@item.insertdatetime</td>                    
-                    <td data-label="rowid">@item.rowid</td>
-                    <td data-label="url">@item.url</td>
-                    <td data-label="last price">$@prevprice</td>
-                    <td data-label="price">$@item.price</td>                    
-                    <td data-label="img"><img src="@item.img"></td>
-                    <!-- Add more table cells based on your table schema -->
+                    <td data-label="🆔">@item.id</td>
+                    <td data-label="🕒 Added">@item.insertdatetime</td>                    
+                    <td data-label="🎫 Row">@item.rowid</td>
+                    <td data-label="🔗 URL"><a href="@item.url">@city @date</a></td>
+                    <td data-label="✅ Still available">@(!Model.RmEvents.Any(x => x.rowid == item.rowid))</td>
+                    <td data-label="💲 Last price">$@prevprice</td>
+                    <td data-label="💲 Price">$@item.price</td>                    
+                    <td data-label="📸 Image"><img src="@item.img"></td>
                 </tr>
             }
         </tbody>

@@ -9,6 +9,7 @@ public class ApplicationDbContext : DbContext
     }
 
     public DbSet<Event> events { get; set; }
+    public DbSet<RmEvent> rmEvents { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -16,6 +17,10 @@ public class ApplicationDbContext : DbContext
         modelBuilder.Entity<Event>(entity =>
         {
             entity.ToTable("events", "events");
+        });
+        modelBuilder.Entity<RmEvent>(entity =>
+        {
+            entity.ToTable("rm_events", "events");
         });
     }
 }
