@@ -40,6 +40,7 @@ ViewData["Title"] = "🌟 Taylor Ticket Watch 🌟";
         <thead>
             <tr>
                 <th>🆔</th>
+                <th>💺</th>
                 <th>🔗</th>
                 <th>🕒</th>                                
                 <th>✅</th>
@@ -62,6 +63,7 @@ ViewData["Title"] = "🌟 Taylor Ticket Watch 🌟";
                 string date = dateMatch.Success ? dateMatch.Groups[1].Value : "Unknown";
                 <tr>
                     <td data-label="🆔">@item.rowid</td>
+                    <td data-label="💺">@item.section</td>
                     <td data-label="🔗"><a href="@item.url">@city @date</a></td>
                     <td data-label="🕒">@GetRelativeTime(item.insertdatetime)</td>                                        
                     <td data-label="✅">@(!Model.RmEvents.Any(x => x.rowid == item.rowid))</td>
