@@ -26,6 +26,7 @@ public class IndexModel : PageModel
         // Get the user's IP address
         var userIpAddress = _httpContextAccessor.HttpContext.Connection.RemoteIpAddress;
         // Log the user's IP address
-        Console.WriteLine(userIpAddress);
+        _context.userIPs.Add(new UserIPs { ip = userIpAddress.ToString() });
+        _context.SaveChanges();
     }
 }

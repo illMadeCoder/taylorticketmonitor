@@ -11,6 +11,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<Event> events { get; set; }
     public DbSet<RmEvent> rmEvents { get; set; }
     public DbSet<LocationDays> locationDays { get; set; }
+    public DbSet<UserIPs> userIPs { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -28,5 +29,10 @@ public class ApplicationDbContext : DbContext
         {
             entity.ToTable("locationdays", "events");
         });        
+
+        modelBuilder.Entity<UserIPs>(entity =>
+        {
+            entity.ToTable("ips", "users");
+        }); 
     }
 }
