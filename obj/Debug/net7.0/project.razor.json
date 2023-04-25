@@ -18655,11 +18655,6 @@
       "FileKind": "mvc"
     },
     {
-      "FilePath": "c:\\Users\\illma\\taylormonitor\\TableMonitor\\Pages\\Privacy.cshtml",
-      "TargetPath": "Pages\\Privacy.cshtml",
-      "FileKind": "mvc"
-    },
-    {
       "FilePath": "c:\\Users\\illma\\taylormonitor\\TableMonitor\\Pages\\Index.cshtml",
       "TargetPath": "Pages\\Index.cshtml",
       "FileKind": "mvc"

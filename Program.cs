@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Npgsql.EntityFrameworkCore.PostgreSQL;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Http;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +11,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+
+builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
 
@@ -31,3 +34,5 @@ app.UseAuthorization();
 app.MapRazorPages();
 
 app.Run();
+
+

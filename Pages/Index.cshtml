@@ -5,6 +5,38 @@
 ViewData["Title"] = "🌟 Taylor Ticket Watch 🌟";
 }
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css">
+
+<script>
+    function getDatesForLocation(selectedLocation) {
+        let locationDays = @Html.Raw(Json.Serialize(Model.LocationDays));
+        let dates = locationDays
+            .filter(ld => ld.location === selectedLocation)
+            .map(ld => ld.day.slice(0, 10));
+        return dates;
+    }
+
+    function updateDates() {
+        let locationSelect = document.getElementById("locationSelect");
+        let dateSelect = document.getElementById("dateSelect");
+        let selectedLocation = locationSelect.value;
+
+        dateSelect.innerHTML = '<option value="">Choose a date</option>';
+        dateSelect.disabled = true;
+
+        if (selectedLocation) {
+            let dates = getDatesForLocation(selectedLocation);
+            dates.forEach(date => {
+                let option = document.createElement("option");
+                option.value = date;
+                option.text = date;
+                dateSelect.add(option);
+            });
+            dateSelect.disabled = false;
+        }
+    }
+</script>
+
 
 @functions {
     public string GetRelativeTime(DateTime date)
@@ -24,53 +56,202 @@ ViewData["Title"] = "🌟 Taylor Ticket Watch 🌟";
     }
 }
 
-<h1>🌟 Taylor Ticket Watch 🌟</h1>
-@* <p id="priceStats" style="text-align:center;"></p>
-@{
-    var averagePrice = Model.Data.Where(item => item.insertdatetime.Date > DateTime.Today.AddDays(-1).Date).Average(item => item.price);
-    var yesterdayAveragePrice = Model.Data.Where(item => item.insertdatetime.Date == DateTime.Today.AddDays(-1).Date).Average(item => item.price);
-    var averageDifference = Model.Data.
-    string priceTrend = averagePrice > yesterdayAveragePrice ? "📈" : "📉";
-}
-<script>
-    document.getElementById("priceStats").innerHTML = "Average Yesterday: $@yesterdayAveragePrice.ToString("F2") Today: $@averagePrice.ToString("F2") Trend: @priceTrend";
-</script> *@
+<h1 class="title">🌟 Taylor Ticket Watch 🌟</h1>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6">
+            @* <label for="locationSelect">Select Location</label> *@
+            <select class="form-control" id="locationSelect" onchange="updateDates()">
+                <option value="">Choose a location</option>
+                @foreach (var location in Model.LocationDays.Select(ld => ld.location).Distinct())
+                {
+                    <option value="@location">@location</option>
+                }
+            </select>
+        </div>
+        <div class="col-md-6">
+            @* <label for="dateSelect">Select Date</label> *@
+            <select class="form-control" id="dateSelect" disabled onchange="addLocationDatePair()">
+                <option value="">Choose a date</option>
+            </select>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col">
+            <div id="selectedPairs" class="d-flex flex-wrap">
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .tag {
+        display: inline-block;
+        background-color: #f8f9fa;
+        border: 1px solid #dee2e6;
+        border-radius: 15px;
+        padding: 5px 10px;
+        margin: 5px;
+        cursor: pointer;
+    }
+
+    .tag::after {
+        content: "×";
+        font-size: 16px;
+        font-weight: bold;
+        margin-left: 5px;
+    }
+</style>        
+
 <div class="responsive-table">
     <table>
         <thead>
             <tr>
-                <th>🆔</th>
-                <th>💺</th>
-                <th>🔗</th>
-                <th>🕒</th>                                
-                <th>✅</th>
-                <th>💵</th>
-                <th></th>
+                <th class="center">💺 section</th>
+                <th class="center">🔗 event</th>
+                <th class="center">🕒 observed</th>                                
+                <th class="center">💵 cost</th>
+                <th class="center"></th>
                 <!-- Add more table headers based on your table schema -->
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model.Data.OrderByDescending(x => x.insertdatetime).ToList())
+            @foreach (var item in Model.Data                            
+                            .GroupBy(x => x.rowid)
+                            .Select(group => group.MaxBy(x => x.insertdatetime))
+                            .OrderByDescending(x => x.insertdatetime)
+                            .ToList())
             {
-                var prevprice = (Model.Data.OrderByDescending(x => x.insertdatetime).Where(x => x.rowid == item.rowid && x.url == item.url && x.id != item.id).MaxBy(x => x.insertdatetime)?.price ?? 0);
-                string cityPattern = @"taylor-swift-(\w+)-tickets";
-                string datePattern = @"tickets-(\d+-\d+-\d+)";
-
+                var prevprice = Model.Data.OrderByDescending(x => x.insertdatetime)
+                                    .Where(x => x.rowid == item.rowid && x.url == item.url && x.id != item.id)
+                                    .MaxBy(x => x.insertdatetime)?.price ?? 0;
+                string cityPattern = @"taylor-swift-([\w-]+)-tickets";
+                string datePattern = @"tickets-(\d+-\d+)";
                 Match cityMatch = Regex.Match(item.url, cityPattern);
                 Match dateMatch = Regex.Match(item.url, datePattern);
 
                 string city = cityMatch.Success ? cityMatch.Groups[1].Value : "Unknown";
                 string date = dateMatch.Success ? dateMatch.Groups[1].Value : "Unknown";
-                <tr>
-                    <td data-label="🆔">@item.rowid</td>
+                <tr data-location-date="@date">
                     <td data-label="💺">@item.section</td>
                     <td data-label="🔗"><a href="@item.url">@city @date</a></td>
                     <td data-label="🕒">@GetRelativeTime(item.insertdatetime)</td>                                        
-                    <td data-label="✅">@(!Model.RmEvents.Any(x => x.rowid == item.rowid))</td>
-                    <td data-label="💵">$@prevprice -> $@item.price</td>                    
+                    <td data-label="💵">@(prevprice == 0 ? "new" : $"${prevprice}") -> $@item.price</td>      
                     <td data-label=""><img src="@item.img"></td>
                 </tr>
             }
         </tbody>
     </table>
 </div>
+
+<script>
+function formatDate(date) {
+    const parts = date.split('-');
+    return `${parts[0].padStart(2, '0')}-${parts[1].padStart(2, '0')}`;
+}
+function filterTableRows() {
+    const tableRows = document.querySelectorAll('.responsive-table table tbody tr');
+    const datePairs = new Set();
+
+    // Regular expression to extract the date from the standard format
+    const datePattern = /locationDatePair-.*? (\d+-\d+)$/;
+
+    // Collect date pairs from local storage
+    for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key.startsWith('locationDatePair-')) {
+            const dateMatch = key.match(datePattern);
+            if (dateMatch) {
+                datePairs.add(dateMatch[1]); // Add only the date part
+            }
+        }
+    }
+
+    // Show or hide table rows based on the date pairs
+    tableRows.forEach(row => {
+        const locationDate = formatDate(row.getAttribute('data-location-date'));
+        if (datePairs.size == 0 || datePairs.has(locationDate)) {
+            row.style.display = ''; // Show the row
+        } else {
+            row.style.display = 'none'; // Hide the row
+        }
+    });
+}
+</script>
+
+
+<script>
+    function updateDates() {
+        const locationSelect = document.getElementById("locationSelect");
+        const dateSelect = document.getElementById("dateSelect");
+        const selectedLocation = locationSelect.value;
+
+        if (selectedLocation) {
+            dateSelect.innerHTML = '<option value="">Choose a date</option>';
+            dateSelect.disabled = false;
+
+            @foreach (var locationDay in Model.LocationDays)
+            {
+                <text>
+                if (selectedLocation === "@locationDay.location") {
+                    const option = document.createElement("option");
+                    option.value = "@locationDay.day.ToString("MM-dd")";
+                    option.text = "@locationDay.day.ToString("MM-dd")";
+                    dateSelect.add(option);
+                }
+                </text>
+            }
+        } else {
+            dateSelect.innerHTML = '<option value="">Choose a date</option>';
+            dateSelect.disabled = true;
+        }
+    }
+
+    function addLocationDatePair() {
+        const locationSelect = document.getElementById("locationSelect");
+        const dateSelect = document.getElementById("dateSelect");
+
+        if (locationSelect.value && dateSelect.value) {
+            const pair = `${locationSelect.value} ${dateSelect.value}`;
+            const storageKey = `locationDatePair-${pair}`;
+
+            // Check if the item already exists in local storage
+            if (!localStorage.getItem(storageKey)) {
+                localStorage.setItem(storageKey, pair);
+                addTag(pair);
+            }
+        }
+    }
+
+    function addTag(pair) {
+        const selectedPairs = document.getElementById("selectedPairs");
+        const tag = document.createElement("div");
+        tag.className = "tag";
+        tag.innerText = pair;
+        tag.onclick = function () {
+            removeTag(tag, pair);
+        };        
+        selectedPairs.appendChild(tag);
+        filterTableRows();
+    }
+
+    function removeTag(tag, pair) {
+        tag.remove();
+        const storageKey = `locationDatePair-${pair}`;
+        localStorage.removeItem(storageKey);
+        filterTableRows();
+    }
+
+function loadTagsFromLocalStorage() {
+    for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key.startsWith('locationDatePair-')) {
+            addTag(key.substring('locationDatePair-'.length));
+        }
+    }
+    filterTableRows();
+}
+
+    loadTagsFromLocalStorage();
+</script>
