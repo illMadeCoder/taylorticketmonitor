@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Npgsql.EntityFrameworkCore.PostgreSQL;
+using System.Linq;
 
 public class IndexModel : PageModel
 {
@@ -20,50 +21,52 @@ public class IndexModel : PageModel
 
     public void OnGet(string locationDayPairs)
     {
-        List<LocationDayPairViewModel> locationDays = new List<LocationDayPairViewModel>();
-        if (!string.IsNullOrEmpty(locationDayPairs))
+        var locationDays = ParseLocationDayPairs(locationDayPairs);
+        LoadLocationDays();
+        LoadEvents(locationDays);
+        LogUserIpAddress();
+    }
+
+    private List<LocationDayPairViewModel> ParseLocationDayPairs(string locationDayPairs)
+    {
+        if (string.IsNullOrEmpty(locationDayPairs))
         {
-            Console.WriteLine(locationDayPairs);
-            Console.WriteLine("");
-            locationDays = locationDayPairs.Split(',')
-                .Select(ldp => {
-                    Console.WriteLine(locationDayPairs);
-                    return ldp.Split(':');
-                    })
-                .Select(parts => new LocationDayPairViewModel { Location = parts[0], Day = parts[1] })
-                .ToList();
-            Console.WriteLine($"{locationDays[0].Location.Split(" ").First()} {locationDays[0].Day}");            
+            return new List<LocationDayPairViewModel>();
         }
-        // Get all LocationDays
+
+        return locationDayPairs.Split(',')
+            .Select(ldp => ldp.Split(':'))
+            .Select(parts => new LocationDayPairViewModel { Location = parts[0], Day = parts[1] })
+            .ToList();
+    }
+
+    private void LoadLocationDays()
+    {
         LocationDays = _context.locationDays.ToList();
+    }
+
+    private void LoadEvents(List<LocationDayPairViewModel> locationDays)
+    {
         Events = new List<Event>();
         RmEvents = new List<RmEvent>();
-        
-        List<string> locationsProcessed = new List<string>();
-        foreach (var el in locationDays) {
-             //&& x.insertdatetime >= DateTime.Now.AddDays(-2).ToUniversalTime()
-            if (!locationsProcessed.Contains(el.Location)) {
-                locationsProcessed.Add(el.Location);
-                var firstWord = el.Location.Split(" ").First();
-                List<Event> query = _context.events.Where(x => x.url.Contains(firstWord)).ToList();
-                Events = Events.Concat(query).ToList();
-                Console.WriteLine(el.Location);
-             }
-        }        
 
-// .GroupBy(x => x.rowid)
-//                 .Select(group => group.MaxBy(x => x.insertdatetime))
+        var uniqueLocations = locationDays.Select(ld => ld.Location).Distinct();
+
+        foreach (var location in uniqueLocations)
+        {
+            var firstWord = location.Split(" ").First();
+            var query = _context.events.Where(x => x.url.Contains(firstWord)).ToList();
+            Events = Events.Concat(query).ToList();
+        }
+
         Events = Events
-                .OrderByDescending(x => x.insertdatetime)
-                .ToList();
-        Console.WriteLine($"here {Events.Count}");
+            .OrderByDescending(x => x.insertdatetime)
+            .ToList();
+    }
 
-
-
-        // Get the user's IP address
+    private void LogUserIpAddress()
+    {
         var userIpAddress = _httpContextAccessor.HttpContext.Connection.RemoteIpAddress;
-
-        // Log the user's IP address
         _context.userIPs.Add(new UserIPs { ip = userIpAddress.ToString() });
         _context.SaveChanges();
     }

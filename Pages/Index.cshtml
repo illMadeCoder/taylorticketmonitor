@@ -4,80 +4,19 @@
 @{
 ViewData["Title"] = "🎫Ticket Watch";
 }
+
+<!-- Meta and Stylesheets -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Elsie+Swash+Caps:wght@400;900&family=Roboto:ital,wght@0,400;1,900&display=swap" rel="stylesheet">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Elsie+Swash+Caps:wght@400;900&family=Open+Sans:wght@300&family=Roboto:ital,wght@0,400;1,900&family=Yeseva+One&display=swap" rel="stylesheet">
-
-
-
-<script>
-    document.getElementById("loadEventsButton").addEventListener("click", function () {
-        // Replace this with the actual JavaScript code that generates the selected location-day pairs
-        var selectedLocationDayPairs = [
-            { Location: "atlanta", Day: "04-28" },
-            { Location: "atlanta", Day: "04-29" },
-        ];
-
-        // Convert the selected location-day pairs into a comma-separated string
-        var locationDayPairsString = selectedLocationDayPairs.map(function (ldp) {
-            return ldp.Location + ":" + ldp.Day;
-        }).join(',');
-
-        // Create the URL with the locationDayPairs query parameter
-        var url = new URL(window.location.origin + "/Index");
-        url.searchParams.append("locationDayPairs", locationDayPairsString);
-
-        // Navigate to the URL
-        window.location.href = url.toString();
-    });
-</script>
-
-<script>
-    function getDatesForLocation(selectedLocation) {
-        let locationDays = @Html.Raw(Json.Serialize(Model.LocationDays));
-        let dates = locationDays
-            .filter(ld => ld.location === selectedLocation)
-            .map(ld => ld.day.slice(0, 10));
-        return dates;
-    }
-
-    function updateDates() {
-        let locationSelect = document.getElementById("locationSelect");
-        let dateSelect = document.getElementById("dateSelect");
-        let selectedLocation = locationSelect.value;
-
-        dateSelect.innerHTML = '<option value="">Choose a date</option>';
-        dateSelect.disabled = true;
-
-        if (selectedLocation) {
-            let dates = getDatesForLocation(selectedLocation);
-            dates.forEach(date => {
-                let option = document.createElement("option");
-                option.value = date;
-                option.text = date;
-                dateSelect.add(option);
-            });
-            debugger
-            let option = document.createElement("option");
-            option.value = "all";
-            option.text = "all";            
-            dateSelect.add(option);
-            dateSelect.disabled = false;
-        }
-    }
-</script>
-
 
 @functions {
     public string GetRelativeTime(DateTime date)
-    {                
-        TimeSpan timeSpan = DateTime.Now.ToUniversalTime() - date;
-
+    {
+    TimeSpan timeSpan = DateTime.Now.ToUniversalTime() - date;
         if (timeSpan.TotalDays > 1)
             return $"{(int)timeSpan.TotalDays} days ago";
         if (timeSpan.TotalHours > 1)
@@ -92,11 +31,9 @@ ViewData["Title"] = "🎫Ticket Watch";
 }
 
 <h1 class="title">🌟Taylor 🎫Ticket 🤩Watch </h1>
-
 <div class="container mt-5 mb-2">
     <div class="row">
         <div class="col">
-            @* <label for="locationSelect">Select Location</label> *@
             <select class="form-control" id="locationSelect" onchange="updateDates()">
                 <option value="">Choose a location</option>
                 @foreach (var location in Model.LocationDays.Select(ld => ld.location).Distinct())
@@ -106,7 +43,6 @@ ViewData["Title"] = "🎫Ticket Watch";
             </select>
         </div>
         <div class="col">
-            @* <label for="dateSelect">Select Date</label> *@
             <select class="form-control" id="dateSelect" disabled onchange="addLocationDatePair()">
                 <option value="">Choose a date</option>
             </select>
@@ -119,7 +55,6 @@ ViewData["Title"] = "🎫Ticket Watch";
         </div>
     </div>
 </div>    
-
 <div class="responsive-table">
     <table>
         <thead>
@@ -129,7 +64,6 @@ ViewData["Title"] = "🎫Ticket Watch";
                 <th class="center">🕒 observed</th>                                
                 <th class="center">💵 cost</th>
                 <th class="center">📷 img</th>
-                <!-- Add more table headers based on your table schema -->
             </tr>
         </thead>
         <tbody>
@@ -142,7 +76,6 @@ ViewData["Title"] = "🎫Ticket Watch";
                 string datePattern = @"tickets-(\d+-\d+)";
                 Match cityMatch = Regex.Match(item.url, cityPattern);
                 Match dateMatch = Regex.Match(item.url, datePattern);
-
                 string city = cityMatch.Success ? cityMatch.Groups[1].Value : "Unknown";
                 string date = dateMatch.Success ? dateMatch.Groups[1].Value : "Unknown";
                 <tr data-location-date="@date">
@@ -152,48 +85,44 @@ ViewData["Title"] = "🎫Ticket Watch";
                     <td data-label="💵">@(prevprice == 0 ? "new" : $"${prevprice}") -> $@item.price</td>      
                     <td data-label="📷"><img src="@item.img"></td>
                 </tr>
-            }
-        </tbody>
-    </table>
+        }
+    </tbody>
+</table>
+
 </div>
-
 <script>
-function formatDate(date) {
-    const parts = date.split('-');
-    return `${parts[0].padStart(2, '0')}-${parts[1].padStart(2, '0')}`;
-}
-function filterTableRows() {
-    const tableRows = document.querySelectorAll('.responsive-table table tbody tr');
-    const datePairs = new Set();
+    function formatDate(date) {
+        const parts = date.split('-');
+        return `${parts[0].padStart(2, '0')}-${parts[1].padStart(2, '0')}`;
+    }
+    function filterTableRows() {
+        const tableRows = document.querySelectorAll('.responsive-table table tbody tr');
+        const datePairs = new Set();
 
-    // Regular expression to extract the date from the standard format
-    const datePattern = /locationDatePair-.*? (\d+-\d+)$/;
+        // Regular expression to extract the date from the standard format
+        const datePattern = /locationDatePair-.*? (\d+-\d+)$/;
 
-    // Collect date pairs from local storage
-    for (let i = 0; i < localStorage.length; i++) {
-        const key = localStorage.key(i);
-        if (key.startsWith('locationDatePair-')) {
-            const dateMatch = key.match(datePattern);
-            if (dateMatch) {
-                datePairs.add(dateMatch[1]); // Add only the date part
+        // Collect date pairs from local storage
+        for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
+            if (key.startsWith('locationDatePair-')) {
+                const dateMatch = key.match(datePattern);
+                if (dateMatch) {
+                    datePairs.add(dateMatch[1]); // Add only the date part
+                }
             }
         }
+
+        // Show or hide table rows based on the date pairs
+        tableRows.forEach(row => {
+            const locationDate = formatDate(row.getAttribute('data-location-date'));
+            if (datePairs.has(locationDate)) {
+                row.style.display = ''; // Show the row
+            } else {
+                row.style.display = 'none'; // Hide the row
+            }
+        });
     }
-
-    // Show or hide table rows based on the date pairs
-    tableRows.forEach(row => {
-        const locationDate = formatDate(row.getAttribute('data-location-date'));
-        if (datePairs.has(locationDate)) {
-            row.style.display = ''; // Show the row
-        } else {
-            row.style.display = 'none'; // Hide the row
-        }
-    });
-}
-</script>
-
-
-<script>
     function updateDates() {
         const locationSelect = document.getElementById("locationSelect");
         const dateSelect = document.getElementById("dateSelect");
@@ -235,47 +164,45 @@ function filterTableRows() {
             }
         }
     }
-
     function addTag(pair, reload = true) {
         const selectedPairs = document.getElementById("selectedPairs");
         const tag = document.createElement("div");
         tag.className = "tag";
         tag.innerText = pair;
         tag.onclick = function () {
-            removeTag(tag, pair);
-        };        
-        selectedPairs.appendChild(tag);
-        
+        removeTag(tag, pair);
+    };
+    selectedPairs.appendChild(tag);
         if (reload) {
-            // Replace this with the actual JavaScript code that generates the selected location-day pairs
-            var selectedLocationDayPairs = Array.from(selectedPairs.children).map(tag => {
-                const parts = tag.innerText.split(' ');
-                return {
-                    Location: parts.slice(0, -2).join(' ').toLowerCase(),
-                    Day: parts[parts.length - 1]
-                };
-            });
-            // Convert the selected location-day pairs into a comma-separated string
-            var locationDayPairsString = selectedLocationDayPairs.map(function (ldp) {
-                return ldp.Location + ":" + ldp.Day;
-            }).join(',');
+        // Replace this with the actual JavaScript code that generates the selected location-day pairs
+        var selectedLocationDayPairs = Array.from(selectedPairs.children).map(tag => {
+            const parts = tag.innerText.split(' ');
+            return {
+                Location: parts.slice(0, -2).join(' ').toLowerCase(),
+                Day: parts[parts.length - 1]
+            };
+        });
+        // Convert the selected location-day pairs into a comma-separated string
+        var locationDayPairsString = selectedLocationDayPairs.map(function (ldp) {
+            return ldp.Location + ":" + ldp.Day;
+        }).join(',');
 
-            // Create the URL with the locationDayPairs query parameter
-            var url = new URL(window.location.origin + "/Index");
-            url.searchParams.append("locationDayPairs", locationDayPairsString);
+        // Create the URL with the locationDayPairs query parameter
+        var url = new URL(window.location.origin + "/Index");
+        url.searchParams.append("locationDayPairs", locationDayPairsString);
 
-            // Navigate to the URL
-            window.location.href = url.toString();
-        }
-        filterTableRows();
+        // Navigate to the URL
+        window.location.href = url.toString();
     }
+    filterTableRows();
+}
 
-    function removeTag(tag, pair) {
-        tag.remove();
-        const storageKey = `locationDatePair-${pair}`;
-        localStorage.removeItem(storageKey);
-        filterTableRows();
-    }
+function removeTag(tag, pair) {
+    tag.remove();
+    const storageKey = `locationDatePair-${pair}`;
+    localStorage.removeItem(storageKey);
+    filterTableRows();
+}
 
 function loadTagsFromLocalStorage() {
     for (let i = 0; i < localStorage.length; i++) {
@@ -287,5 +214,7 @@ function loadTagsFromLocalStorage() {
     filterTableRows();
 }
 
-    loadTagsFromLocalStorage();
+loadTagsFromLocalStorage();    
 </script>
+
+
