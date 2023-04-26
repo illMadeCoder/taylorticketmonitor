@@ -62,7 +62,9 @@ public class IndexModel : PageModel
 
         foreach (var location in uniqueLocations)
         {
+            Console.WriteLine(location);
             var firstWord = location.Split(" ").First();
+            Console.WriteLine(firstWord);
             var query = _context.events.Where(x => x.url.Contains(firstWord)).Take(100).ToList();
             EventsViewModel.Events = EventsViewModel.Events.Concat(query).ToList();
         }
