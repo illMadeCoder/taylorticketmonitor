@@ -92,6 +92,16 @@ html {
   }
   
   @media screen and (max-width: 767px) {
+    .image-cell img {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+      }
+    
+    .image-cell:before {
+    display: none;
+    }
+
     thead {
       display: none;
     }
@@ -108,7 +118,7 @@ html {
       text-align: center;
       border-bottom: 1px solid #E83D84;
       position: relative;
-      padding-left: 50%;
+      
     }
   
     td:before {

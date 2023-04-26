@@ -83,7 +83,7 @@ ViewData["Title"] = "🎫Ticket Watch";
                     <td data-label="🔗"><a href="@item.url">@city @date</a></td>
                     <td data-label="🕒">@GetRelativeTime(item.insertdatetime)</td>                                        
                     <td data-label="💵">@(prevprice == 0 ? "new" : $"${prevprice}") -> $@item.price</td>      
-                    <td data-label="📷"><img src="@item.img"></td>
+                    <td data-label="📷" class="image-cell"><img src="@item.img"></td>
                 </tr>
         }
     </tbody>
