@@ -1,4 +1,4 @@
-html {
+  html {
     font-size: 14px;
     margin-top: 2em;
   }
@@ -11,7 +11,13 @@ html {
     margin-bottom: 1rem;
     font-family: 'Yeseva One', cursive;
   }
+  h2 {
+    font-size: 1.5rem;
+    text-align: center;
+    color: #E83D84;
+  }
   
+
   .selectedPairs {
     min-height: 2rem;
   }
@@ -136,3 +142,5 @@ html {
       border-bottom: 2px solid #dee2e6;
     }
   }
+
+  

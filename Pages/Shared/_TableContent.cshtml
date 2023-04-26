@@ -1,0 +1,50 @@
+@using System.Text.RegularExpressions;
+@model List<Event>
+@functions {
+    public string GetRelativeTime(DateTime date)
+    {
+        TimeSpan timeSpan = DateTime.Now.ToUniversalTime() - date;
+        if (timeSpan.TotalDays > 1)
+            return $"{(int)timeSpan.TotalDays} days ago";
+        if (timeSpan.TotalHours > 1)
+            return $"{(int)timeSpan.TotalHours} hours ago";
+        if (timeSpan.TotalMinutes > 1)
+            return $"{(int)timeSpan.TotalMinutes} minutes ago";
+        if (timeSpan.TotalSeconds > 1)
+            return $"{(int)timeSpan.TotalSeconds} seconds ago";
+
+        return "Just now";
+    }
+}
+<table>
+    <thead>
+        <tr>
+            <th class="center">💺 section</th>
+            <th class="center">🔗 event</th>
+            <th class="center">🕒 observed</th>                                
+            <th class="center">💵 cost</th>
+            <th class="center">📷 img</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+    {
+        var prevprice = Model.OrderByDescending(x => x.insertdatetime)
+                            .Where(x => x.rowid == item.rowid && x.url == item.url && x.id != item.id)
+                            .MaxBy(x => x.insertdatetime)?.price ?? 0;
+        string cityPattern = @"taylor-swift-([\w-]+)-tickets";
+        string datePattern = @"tickets-(\d+-\d+)";
+        Match cityMatch = Regex.Match(item.url, cityPattern);
+        Match dateMatch = Regex.Match(item.url, datePattern);
+        string city = cityMatch.Success ? cityMatch.Groups[1].Value : "Unknown";
+        string date = dateMatch.Success ? dateMatch.Groups[1].Value : "Unknown";
+        <tr data-location-date="@date">
+            <td data-label="💺">@item.section</td>
+            <td data-label="🔗"><a href="@item.url">@city @date</a></td>
+            <td data-label="🕒">@GetRelativeTime(item.insertdatetime)</td>                                        
+            <td data-label="💵">@(prevprice == 0 ? "new" : $"${prevprice}") -> $@item.price</td>      
+            <td data-label="📷" class="image-cell"><img src="@item.img" loading="lazy"></td>
+        </tr>
+    }
+    </tbody>
+</table>

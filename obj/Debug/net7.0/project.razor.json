@@ -18673,6 +18673,11 @@
       "FilePath": "c:\\Users\\illma\\taylormonitor\\TableMonitor\\Pages\\_ViewStart.cshtml",
       "TargetPath": "Pages\\_ViewStart.cshtml",
       "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\illma\\taylormonitor\\TableMonitor\\Pages\\Shared\\_TableContent.cshtml",
+      "TargetPath": "Pages\\Shared\\_TableContent.cshtml",
+      "FileKind": "mvc"
     }
   ],
   "SerializationFormat": "0.3"

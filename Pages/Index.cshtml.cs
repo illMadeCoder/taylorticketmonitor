@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Npgsql.EntityFrameworkCore.PostgreSQL;
 using System.Linq;
@@ -18,6 +19,13 @@ public class IndexModel : PageModel
     public IList<Event> Events { get; set; }
     public IList<RmEvent> RmEvents { get; set; }
     public IList<LocationDays> LocationDays { get; set; }
+
+    public PartialViewResult OnGetTableContent(string locationDayPairs)
+    {
+        var locationDays = ParseLocationDayPairs(locationDayPairs);
+        LoadEvents(locationDays);
+        return Partial("_TableContent", Events);
+    }
 
     public void OnGet(string locationDayPairs)
     {
