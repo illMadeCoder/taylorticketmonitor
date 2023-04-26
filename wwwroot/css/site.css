@@ -33,6 +33,16 @@
     color: #E83D84;
   }
   
+  form {
+    width: 100%;
+}
+
+textarea {
+    width: 100%;
+    max-width: 400px;
+    resize: vertical;
+}
+
   div#info-block {
     background-color: #f8f9fa;
     border-radius: 10px;
