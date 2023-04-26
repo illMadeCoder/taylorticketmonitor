@@ -1,5 +1,5 @@
 @using System.Text.RegularExpressions;
-@model List<Event>
+@model EventsViewModel;
 @functions {
     public string GetRelativeTime(DateTime date)
     {
@@ -27,11 +27,9 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @foreach (var item in Model.Events)
     {
-        var prevprice = Model.OrderByDescending(x => x.insertdatetime)
-                            .Where(x => x.rowid == item.rowid && x.url == item.url && x.id != item.id)
-                            .MaxBy(x => x.insertdatetime)?.price ?? 0;
+        var prevprice = Model.EventPrevPrice.First(x => x.id == item.id).prevprice;
         string cityPattern = @"taylor-swift-([\w-]+)-tickets";
         string datePattern = @"tickets-(\d+-\d+)";
         Match cityMatch = Regex.Match(item.url, cityPattern);

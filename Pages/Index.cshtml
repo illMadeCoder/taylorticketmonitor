@@ -47,7 +47,7 @@ ViewData["Title"] = "🎫Ticket Watch";
 </div>    
 
 <div class="responsive-table">
-    @await Html.PartialAsync("_TableContent", Model.Events)
+    @await Html.PartialAsync("_TableContent", Model.EventsViewModel)
 </div>
 
 <script>
@@ -142,6 +142,7 @@ function addLocationDatePair() {
                 addTag(pair);
             }
         }
+        load();
     }
 }
 
@@ -165,7 +166,31 @@ function addLocationDatePair() {
         xhr.send();
     }
 
-    function addTag(pair, reload = true) {
+    function load() {
+        const selectedPairs = document.getElementById("selectedPairs");
+        var selectedLocationDayPairs = Array.from(selectedPairs.children).map(tag => {
+            const parts = tag.innerText.split(' ');
+            return {
+                Location: parts.slice(0, -2).join(' ').toLowerCase(),
+                Day: parts[parts.length - 1]
+            };
+        });
+        // Convert the selected location-day pairs into a comma-separated string
+        var locationDayPairsString = selectedLocationDayPairs.map(function (ldp) {
+            return ldp.Location + ":" + ldp.Day;
+        }).join(',');
+
+        // Create the URL with the locationDayPairs query parameter
+        var url = new URL(window.location.origin + "/Index?handler=TableContent");
+        url.searchParams.append("locationDayPairs", locationDayPairsString);
+
+        ajaxRequest(url.toString(), function (response) {
+            updateTableContent(response);
+            filterTableRows();
+        });
+    }
+
+    function addTag(pair, load=true) {
         const selectedPairs = document.getElementById("selectedPairs");
         const tag = document.createElement("div");
         tag.className = "tag";
@@ -173,33 +198,9 @@ function addLocationDatePair() {
         tag.onclick = function () {
             removeTag(tag, pair);
         };
-
         selectedPairs.appendChild(tag);
-        if (reload) {
-            // Replace this with the actual JavaScript code that generates the selected location-day pairs
-            var selectedLocationDayPairs = Array.from(selectedPairs.children).map(tag => {
-                const parts = tag.innerText.split(' ');
-                return {
-                    Location: parts.slice(0, -2).join(' ').toLowerCase(),
-                    Day: parts[parts.length - 1]
-                };
-            });
-            // Convert the selected location-day pairs into a comma-separated string
-            var locationDayPairsString = selectedLocationDayPairs.map(function (ldp) {
-                return ldp.Location + ":" + ldp.Day;
-            }).join(',');
-
-            // Create the URL with the locationDayPairs query parameter
-            var url = new URL(window.location.origin + "/Index?handler=TableContent");
-            url.searchParams.append("locationDayPairs", locationDayPairsString);
-
-            ajaxRequest(url.toString(), function (response) {
-                updateTableContent(response);
-                filterTableRows();
-            });
+        filterTableRows();
     }
-    filterTableRows();
-}
 
 function removeTag(tag, pair) {
     tag.remove();
@@ -212,9 +213,10 @@ function loadTagsFromLocalStorage() {
     for (let i = 0; i < localStorage.length; i++) {
         const key = localStorage.key(i);
         if (key.startsWith('locationDatePair-')) {
-            addTag(key.substring('locationDatePair-'.length), false);
+            addTag(key.substring('locationDatePair-'.length));
         }
     }
+    load();
     filterTableRows();
 }
 
