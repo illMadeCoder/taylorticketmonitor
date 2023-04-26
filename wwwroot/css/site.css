@@ -33,6 +33,66 @@
     color: #E83D84;
   }
   
+  div#info-block {
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-top: 1rem !important;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Quicksand', sans-serif;
+}
+
+div#info-block h3 {
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+    color: #E83D84;
+}
+
+div#info-block p {
+    font-size: 1.1rem;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+}
+
+div#info-block ul {
+    padding-left: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+div#info-block li {
+    font-size: 1.1rem;
+    line-height: 1.5;
+}
+
+div#info-block a {
+    color: #1da1f2;
+    text-decoration: none;
+}
+
+div#info-block a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 767px) {
+    div#info-block {
+        padding: 15px;
+    }
+
+    div#info-block h3 {
+        font-size: 1.2rem;
+    }
+
+    div#info-block p {
+        font-size: 1rem;
+    }
+
+    div#info-block li {
+        font-size: 1rem;
+    }
+}
+
   .responsive-table table tbody tr {
     min-height: 100px; /* Adjust this value according to your needs */
     background-color: #f8f9fa; /* A light gray background color */

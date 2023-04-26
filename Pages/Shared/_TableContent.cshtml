@@ -16,33 +16,86 @@
         return "Just now";
     }
 }
-<table>
-    <thead>
-        <tr>
-            <th class="center">💺 section</th>
-            <th class="center">🔗 event</th>
-            <th class="center">🕒 observed</th>                                
-            <th class="center">💵 cost</th>
-            <th class="center">📷 img</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.Events)
+
+<div id="tableContent">
+    @if (!Model.Events.Any())
     {
-        var prevprice = Model.EventPrevPrice.First(x => x.id == item.id).prevprice;
-        string cityPattern = @"taylor-swift-([\w-]+)-tickets";
-        string datePattern = @"tickets-(\d+-\d+)";
-        Match cityMatch = Regex.Match(item.url, cityPattern);
-        Match dateMatch = Regex.Match(item.url, datePattern);
-        string city = cityMatch.Success ? cityMatch.Groups[1].Value : "Unknown";
-        string date = dateMatch.Success ? dateMatch.Groups[1].Value : "Unknown";
-        <tr data-location-date="@date">
-            <td data-label="💺">@item.section</td>
-            <td data-label="🔗"><a href="@item.url">@city @date</a></td>
-            <td data-label="🕒">@GetRelativeTime(item.insertdatetime)</td>                                        
-            <td data-label="💵">@(prevprice == 0 ? "new" : $"${prevprice}") -> $@item.price</td>      
-            <td data-label="📷" class="image-cell"><img src="@item.img" loading="lazy"></td>
-        </tr>
-    }
-    </tbody>
-</table>
+@* <div id="info-block">
+    <h3>Welcome to Taylor Ticket Watch! 🌟</h3>
+    <p>Hey Swifties! This app was created to help my partner (and fellow fans like you) have a better chance at snagging tickets for Taylor's Eras Tour. We know how challenging it can be to find affordable tickets, especially with scalpers around. So, we've built this tool to help you monitor ticket prices and grab them when they're just right! 🎟️✨</p>
+    
+    <h3>How to use this app? 📱</h3>
+    <p>It's super easy! Just select a location and a date, and we'll generate a list of the most recent changes to ticket prices for that event.</p> 
+    <p>Wanna keep track of multiple events? No problem! You can add as many as you like. 😍</p>
+    <p>Remember to refresh the page to see the latest data. Our backend updates the info once per minute, so just give the page a quick refresh whenever you're ready to see the newest changes! 🔄</p>
+    
+    <h3>Oops, we've got some issues 🙈:</h3>
+    <ul>
+        <li>When a ticket is removed, we don't show that info yet. We're working on it, promise! ✨</li>
+        <li>Every now and then, an image might be wrong. But hey, nobody's perfect, right? 🤷‍♀️</li>
+        <li>Heads up! You'll need to refresh the page to see the latest price changes. 🔄</li>
+    </ul>
+    <p>We're glad to provide this app to help fellow Swifties! While we don't expect any financial support, if you find the app helpful and feel like giving a small tip on Venmo @@jasminesutton8, it would be appreciated. Your contributions will simply help cover server costs and keep this project running. Of course, we understand that you might be spending a lot on the event already, and we're just happy to be part of your ticket journey! 💕</p>
+    <p>Feel free to share your feedback at <a href="mailto:taylorticketwatch@gmail.com">taylorticketwatch@gmail.com</a>. Happy ticket hunting, Swifties! 🦋</p>
+</div> *@
+<div id="info-block">
+    <h3>Welcome to Taylor Ticket Watch! 🌟</h3>
+    <p>Hey Swifties! Struggling with scalpers?<br>Use this app to monitor ticket prices for Taylor's Eras Tour and grab them when they're just right! 🎟️✨</p>
+    
+    <h3>How to use this app? 📱</h3>
+    <p>1. Select a location and date to see recent ticket price changes.<br>
+    2. Add multiple events if you like.<br>
+    3. Refresh the page to see the latest data (updated every minute). 🔄</p>
+    
+    <h3>Known issues 🙈</h3>
+    <p>As of 04/26/2023:</p>
+    <ul>
+        <li>No info on removed tickets yet. We're on it! ✨</li>
+        <li>Sometimes, an image might be wrong. 🤷‍♀️</li>
+        <li>Don't forget to refresh for latest price changes! 🔄</li>
+    </ul>
+    <h3>Finally...</h3>
+    <p>Tips on Venmo @@jasminesutton8 are appreciated but not expected.<br>They help with server costs, but we're just happy to help you find tickets! 💕</p>
+        <h3>Send us your feedback 💌</h3>
+    <form
+    action="https://formspree.io/f/xwkjajbw"
+    method="POST"
+    >
+        <textarea name="message" id="message" rows="3" cols="50" placeholder="Type your message here"></textarea><br>
+        <button type="submit">Send</button>
+    </form>
+    <p>Happy hunting, Swifties! 🦋</p>
+</div>
+        } else {
+    <table id="eventsTable">
+        <thead>
+            <tr>
+                <th class="center">💺 section</th>
+                <th class="center">🔗 event</th>
+                <th class="center">🕒 observed</th>                                
+                <th class="center">💵 cost</th>
+                <th class="center">📷 img</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Events)
+        {
+            var prevprice = Model.EventPrevPrice.First(x => x.id == item.id).prevprice;
+            string cityPattern = @"taylor-swift-([\w-]+)-tickets";
+            string datePattern = @"tickets-(\d+-\d+)";
+            Match cityMatch = Regex.Match(item.url, cityPattern);
+            Match dateMatch = Regex.Match(item.url, datePattern);
+            string city = cityMatch.Success ? cityMatch.Groups[1].Value : "Unknown";
+            string date = dateMatch.Success ? dateMatch.Groups[1].Value : "Unknown";
+            <tr data-location-date="@date">
+                <td data-label="💺">@item.section</td>
+                <td data-label="🔗"><a href="@item.url">@city @date</a></td>
+                <td data-label="🕒">@GetRelativeTime(item.insertdatetime)</td>                                        
+                <td data-label="💵">@(prevprice == 0 ? "new" : $"${prevprice}") -> $@item.price</td>      
+                <td data-label="📷" class="image-cell"><img src="@item.img" loading="lazy"></td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+</div>

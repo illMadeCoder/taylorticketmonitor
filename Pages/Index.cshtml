@@ -11,6 +11,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Elsie+Swash+Caps:wght@400;900&family=Roboto:ital,wght@0,400;1,900&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Elsie+Swash+Caps:wght@400;900&family=Open+Sans:wght@300&family=Roboto:ital,wght@0,400;1,900&family=Yeseva+One&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
 
 <h1>🌟Taylor 🎟️Ticket 🤩Watch</h1>
 <h2>Price Changes Minute to Minute</h2>
@@ -140,10 +141,10 @@ function addLocationDatePair() {
     }
 }
 
-    function updateTableContent(content) {
-        const table = document.querySelector('.responsive-table > table');
-        table.innerHTML = content;
-    }
+function updateTableContent(content) {
+    const tableWrapper = document.querySelector('.responsive-table');
+    tableWrapper.innerHTML = content;
+}
 
     function ajaxRequest(url, callback) {
         const xhr = new XMLHttpRequest();
@@ -179,8 +180,20 @@ function addLocationDatePair() {
         url.searchParams.append("locationDayPairs", locationDayPairsString);
 
         ajaxRequest(url.toString(), function (response) {
-            updateTableContent(response);
-            filterTableRows();
+            if (response.trim()) {
+                updateTableContent(response);
+                filterTableRows();
+
+                // Check if info block exists and hide it if it does
+                @* var infoBlock = document.querySelector('div#info-block');
+                if (infoBlock) {
+                    infoBlock.style.display = 'none';
+                } *@
+
+                // Show the table
+                var table = document.querySelector('table#eventsTable');
+                table.style.display = '';
+            }
         });
     }
 
