@@ -8,45 +8,111 @@
     ".NETCoreApp,Version=v7.0": {
       "TableMonitor/1.0.0": {
         "dependencies": {
-          "Npgsql.EntityFrameworkCore.PostgreSQL": "7.0.3"
+          "Microsoft.Extensions.Configuration.AzureAppConfiguration": "6.0.0",
+          "Npgsql.EntityFrameworkCore.PostgreSQL": "7.0.4"
         },
         "runtime": {
           "TableMonitor.dll": {}
         }
       },
-      "Microsoft.EntityFrameworkCore/7.0.3": {
+      "Azure.Core/1.23.0": {
         "dependencies": {
-          "Microsoft.EntityFrameworkCore.Abstractions": "7.0.3",
-          "Microsoft.EntityFrameworkCore.Analyzers": "7.0.3",
+          "Microsoft.Bcl.AsyncInterfaces": "1.1.1",
+          "System.Diagnostics.DiagnosticSource": "4.6.0",
+          "System.Memory.Data": "1.0.2",
+          "System.Numerics.Vectors": "4.5.0",
+          "System.Text.Encodings.Web": "4.7.2",
+          "System.Text.Json": "4.7.2",
+          "System.Threading.Tasks.Extensions": "4.5.4"
+        },
+        "runtime": {
+          "lib/net5.0/Azure.Core.dll": {
+            "assemblyVersion": "1.23.0.0",
+            "fileVersion": "1.2300.22.17109"
+          }
+        }
+      },
+      "Azure.Data.AppConfiguration/1.2.0": {
+        "dependencies": {
+          "Azure.Core": "1.23.0",
+          "Microsoft.Bcl.AsyncInterfaces": "1.1.1",
+          "System.Text.Json": "4.7.2"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Azure.Data.AppConfiguration.dll": {
+            "assemblyVersion": "1.2.0.0",
+            "fileVersion": "1.200.21.50403"
+          }
+        }
+      },
+      "Azure.Messaging.EventGrid/4.7.0": {
+        "dependencies": {
+          "Azure.Core": "1.23.0",
+          "System.Memory.Data": "1.0.2",
+          "System.Text.Json": "4.7.2"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Azure.Messaging.EventGrid.dll": {
+            "assemblyVersion": "4.7.0.0",
+            "fileVersion": "4.700.21.50703"
+          }
+        }
+      },
+      "Azure.Security.KeyVault.Secrets/4.3.0": {
+        "dependencies": {
+          "Azure.Core": "1.23.0",
+          "System.Memory": "4.5.4",
+          "System.Text.Json": "4.7.2",
+          "System.Threading.Tasks.Extensions": "4.5.4"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Azure.Security.KeyVault.Secrets.dll": {
+            "assemblyVersion": "4.3.0.0",
+            "fileVersion": "4.300.22.17503"
+          }
+        }
+      },
+      "Microsoft.Bcl.AsyncInterfaces/1.1.1": {
+        "runtime": {
+          "lib/netstandard2.1/Microsoft.Bcl.AsyncInterfaces.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "4.700.20.21406"
+          }
+        }
+      },
+      "Microsoft.EntityFrameworkCore/7.0.5": {
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore.Abstractions": "7.0.5",
+          "Microsoft.EntityFrameworkCore.Analyzers": "7.0.5",
           "Microsoft.Extensions.Caching.Memory": "7.0.0",
           "Microsoft.Extensions.DependencyInjection": "7.0.0",
           "Microsoft.Extensions.Logging": "7.0.0"
         },
         "runtime": {
           "lib/net6.0/Microsoft.EntityFrameworkCore.dll": {
-            "assemblyVersion": "7.0.3.0",
-            "fileVersion": "7.0.323.6302"
+            "assemblyVersion": "7.0.5.0",
+            "fileVersion": "7.0.523.16503"
           }
         }
       },
-      "Microsoft.EntityFrameworkCore.Abstractions/7.0.3": {
+      "Microsoft.EntityFrameworkCore.Abstractions/7.0.5": {
         "runtime": {
           "lib/net6.0/Microsoft.EntityFrameworkCore.Abstractions.dll": {
-            "assemblyVersion": "7.0.3.0",
-            "fileVersion": "7.0.323.6302"
+            "assemblyVersion": "7.0.5.0",
+            "fileVersion": "7.0.523.16503"
           }
         }
       },
-      "Microsoft.EntityFrameworkCore.Analyzers/7.0.3": {},
-      "Microsoft.EntityFrameworkCore.Relational/7.0.3": {
+      "Microsoft.EntityFrameworkCore.Analyzers/7.0.5": {},
+      "Microsoft.EntityFrameworkCore.Relational/7.0.5": {
         "dependencies": {
-          "Microsoft.EntityFrameworkCore": "7.0.3",
+          "Microsoft.EntityFrameworkCore": "7.0.5",
           "Microsoft.Extensions.Configuration.Abstractions": "7.0.0"
         },
         "runtime": {
           "lib/net6.0/Microsoft.EntityFrameworkCore.Relational.dll": {
-            "assemblyVersion": "7.0.3.0",
-            "fileVersion": "7.0.323.6302"
+            "assemblyVersion": "7.0.5.0",
+            "fileVersion": "7.0.523.16503"
           }
         }
       },
@@ -64,9 +130,31 @@
           "Microsoft.Extensions.Primitives": "7.0.0"
         }
       },
+      "Microsoft.Extensions.Configuration/3.1.18": {
+        "dependencies": {
+          "Microsoft.Extensions.Configuration.Abstractions": "7.0.0"
+        }
+      },
       "Microsoft.Extensions.Configuration.Abstractions/7.0.0": {
         "dependencies": {
           "Microsoft.Extensions.Primitives": "7.0.0"
+        }
+      },
+      "Microsoft.Extensions.Configuration.AzureAppConfiguration/6.0.0": {
+        "dependencies": {
+          "Azure.Data.AppConfiguration": "1.2.0",
+          "Azure.Messaging.EventGrid": "4.7.0",
+          "Azure.Security.KeyVault.Secrets": "4.3.0",
+          "Microsoft.Extensions.Configuration": "3.1.18",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "7.0.0",
+          "Microsoft.Extensions.Logging": "7.0.0",
+          "System.Text.Json": "4.7.2"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.Extensions.Configuration.AzureAppConfiguration.dll": {
+            "assemblyVersion": "6.0.0.0",
+            "fileVersion": "6.0.0.0"
+          }
         }
       },
       "Microsoft.Extensions.DependencyInjection/7.0.0": {
@@ -91,31 +179,49 @@
         }
       },
       "Microsoft.Extensions.Primitives/7.0.0": {},
-      "Npgsql/7.0.2": {
+      "Npgsql/7.0.4": {
         "dependencies": {
           "Microsoft.Extensions.Logging.Abstractions": "7.0.0"
         },
         "runtime": {
           "lib/net7.0/Npgsql.dll": {
-            "assemblyVersion": "7.0.2.0",
-            "fileVersion": "7.0.2.0"
+            "assemblyVersion": "7.0.4.0",
+            "fileVersion": "7.0.4.0"
           }
         }
       },
-      "Npgsql.EntityFrameworkCore.PostgreSQL/7.0.3": {
+      "Npgsql.EntityFrameworkCore.PostgreSQL/7.0.4": {
         "dependencies": {
-          "Microsoft.EntityFrameworkCore": "7.0.3",
-          "Microsoft.EntityFrameworkCore.Abstractions": "7.0.3",
-          "Microsoft.EntityFrameworkCore.Relational": "7.0.3",
-          "Npgsql": "7.0.2"
+          "Microsoft.EntityFrameworkCore": "7.0.5",
+          "Microsoft.EntityFrameworkCore.Abstractions": "7.0.5",
+          "Microsoft.EntityFrameworkCore.Relational": "7.0.5",
+          "Npgsql": "7.0.4"
         },
         "runtime": {
           "lib/net7.0/Npgsql.EntityFrameworkCore.PostgreSQL.dll": {
-            "assemblyVersion": "7.0.3.0",
-            "fileVersion": "7.0.3.0"
+            "assemblyVersion": "7.0.4.0",
+            "fileVersion": "7.0.4.0"
           }
         }
-      }
+      },
+      "System.Diagnostics.DiagnosticSource/4.6.0": {},
+      "System.Memory/4.5.4": {},
+      "System.Memory.Data/1.0.2": {
+        "dependencies": {
+          "System.Text.Encodings.Web": "4.7.2",
+          "System.Text.Json": "4.7.2"
+        },
+        "runtime": {
+          "lib/netstandard2.0/System.Memory.Data.dll": {
+            "assemblyVersion": "1.0.2.0",
+            "fileVersion": "1.0.221.20802"
+          }
+        }
+      },
+      "System.Numerics.Vectors/4.5.0": {},
+      "System.Text.Encodings.Web/4.7.2": {},
+      "System.Text.Json/4.7.2": {},
+      "System.Threading.Tasks.Extensions/4.5.4": {}
     }
   },
   "libraries": {
@@ -124,33 +230,68 @@
       "serviceable": false,
       "sha512": ""
     },
-    "Microsoft.EntityFrameworkCore/7.0.3": {
+    "Azure.Core/1.23.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-6XUI2YGoaLMoP9KGaqWmmd4B2n5bpQbXrVRpH20Et3YjQ0Rn3Ia6HM/ANcSq9rBfjfUySgo9SwUZgQ4m4PF3LQ==",
-      "path": "microsoft.entityframeworkcore/7.0.3",
-      "hashPath": "microsoft.entityframeworkcore.7.0.3.nupkg.sha512"
+      "sha512": "sha512-myulcGStD89NN7BUhAjkcfDhIvRj2UUwZHEgjB50pL3vb0LEunrtinxKqUGUuOheQVCHlILKLNoUeCThQ1iCOg==",
+      "path": "azure.core/1.23.0",
+      "hashPath": "azure.core.1.23.0.nupkg.sha512"
     },
-    "Microsoft.EntityFrameworkCore.Abstractions/7.0.3": {
+    "Azure.Data.AppConfiguration/1.2.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-0NaFBZykUlQHknddRuKY4v+MFZX/AW+v2V85dgj7abIlt+kL3GWa7QNH5S1084VLf1u+dq1SnhZsOvykc3Y0sA==",
-      "path": "microsoft.entityframeworkcore.abstractions/7.0.3",
-      "hashPath": "microsoft.entityframeworkcore.abstractions.7.0.3.nupkg.sha512"
+      "sha512": "sha512-KA1dAM9TuDsq0CRFd+3cJTYUAzA2z9N8t9/xKdDbP9URuReq/NDFcKYr7GW2W9xzVGDtCHlD5j5am/+zLLBdSg==",
+      "path": "azure.data.appconfiguration/1.2.0",
+      "hashPath": "azure.data.appconfiguration.1.2.0.nupkg.sha512"
     },
-    "Microsoft.EntityFrameworkCore.Analyzers/7.0.3": {
+    "Azure.Messaging.EventGrid/4.7.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-CLyRWFLwaOUZNPEia/aBMzFxZqm/ITKt3B+yUFtrg4Ys5VF3n2gvneuItC9IhpeOcjfdSgu/yUKf8y/IsNHs5A==",
-      "path": "microsoft.entityframeworkcore.analyzers/7.0.3",
-      "hashPath": "microsoft.entityframeworkcore.analyzers.7.0.3.nupkg.sha512"
+      "sha512": "sha512-Wm5+RY6hNoIPVLPwmr3T1ijVm5GdLVZBij93c4Brwe9iB3X8nlUYNjlnQVVJqK4QLs85nGwqBGUpB4BfYdGXVQ==",
+      "path": "azure.messaging.eventgrid/4.7.0",
+      "hashPath": "azure.messaging.eventgrid.4.7.0.nupkg.sha512"
     },
-    "Microsoft.EntityFrameworkCore.Relational/7.0.3": {
+    "Azure.Security.KeyVault.Secrets/4.3.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-RxNNjtTrxsMtdBtgoXGRSy8uCXaBHaVzIonTeo7+Ys+N0yEWwhf2E74cxneyunMi13Ezlld10ecCHlDubEU/Pw==",
-      "path": "microsoft.entityframeworkcore.relational/7.0.3",
-      "hashPath": "microsoft.entityframeworkcore.relational.7.0.3.nupkg.sha512"
+      "sha512": "sha512-GRnmQzTXDVABry1rC8PwuVOHSDCUGn4Om1ABTCzWfHdDSOwRydtQ13ucJ1Z0YtdajklNwxEL6lhHGhFCI0diAw==",
+      "path": "azure.security.keyvault.secrets/4.3.0",
+      "hashPath": "azure.security.keyvault.secrets.4.3.0.nupkg.sha512"
+    },
+    "Microsoft.Bcl.AsyncInterfaces/1.1.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-yuvf07qFWFqtK3P/MRkEKLhn5r2UbSpVueRziSqj0yJQIKFwG1pq9mOayK3zE5qZCTs0CbrwL9M6R8VwqyGy2w==",
+      "path": "microsoft.bcl.asyncinterfaces/1.1.1",
+      "hashPath": "microsoft.bcl.asyncinterfaces.1.1.1.nupkg.sha512"
+    },
+    "Microsoft.EntityFrameworkCore/7.0.5": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-RXbRLHHWP2Z3pq8qcL5nQ6LPeoOyp8hasM5bd0Te8PiQi3RjWQR4tcbdY5XMqQ+oTO9wA8/RLhZRn/hnxlTDnQ==",
+      "path": "microsoft.entityframeworkcore/7.0.5",
+      "hashPath": "microsoft.entityframeworkcore.7.0.5.nupkg.sha512"
+    },
+    "Microsoft.EntityFrameworkCore.Abstractions/7.0.5": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-iwQso+hFRsEWjhH2WsEQj1D2QE5BlEXiXEt6A3SlYTPRPdZsyTNDeDDEdtxL+H/UJPQgQYY+9SMMRcEiXBmCAA==",
+      "path": "microsoft.entityframeworkcore.abstractions/7.0.5",
+      "hashPath": "microsoft.entityframeworkcore.abstractions.7.0.5.nupkg.sha512"
+    },
+    "Microsoft.EntityFrameworkCore.Analyzers/7.0.5": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-yMLM/aK1MikVqpjxd7PJ1Pjgztd3VAd26ZHxyjxG3RPeM9cHjvS5tCg9kAAayR6eHmBg0ffZsHdT28WfA5tTlA==",
+      "path": "microsoft.entityframeworkcore.analyzers/7.0.5",
+      "hashPath": "microsoft.entityframeworkcore.analyzers.7.0.5.nupkg.sha512"
+    },
+    "Microsoft.EntityFrameworkCore.Relational/7.0.5": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-u/33DC4S6g2hpMPgBc5Kdnlz//nqHR5c/ovgjtiP/wQ7sOd0EOdygVzUJAAOxCwbtAHDsJXS9Vc3jLFYq0yu8Q==",
+      "path": "microsoft.entityframeworkcore.relational/7.0.5",
+      "hashPath": "microsoft.entityframeworkcore.relational.7.0.5.nupkg.sha512"
     },
     "Microsoft.Extensions.Caching.Abstractions/7.0.0": {
       "type": "package",
@@ -166,12 +307,26 @@
       "path": "microsoft.extensions.caching.memory/7.0.0",
       "hashPath": "microsoft.extensions.caching.memory.7.0.0.nupkg.sha512"
     },
+    "Microsoft.Extensions.Configuration/3.1.18": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-G2w2QolMv76ZswL6XKjy8PbAu12uYbtIkGwkkZEhy7irWfqQWFT8PKQ68cEpotg6e2rc15E5/LQDgvCpXeWFtA==",
+      "path": "microsoft.extensions.configuration/3.1.18",
+      "hashPath": "microsoft.extensions.configuration.3.1.18.nupkg.sha512"
+    },
     "Microsoft.Extensions.Configuration.Abstractions/7.0.0": {
       "type": "package",
       "serviceable": true,
       "sha512": "sha512-f34u2eaqIjNO9YLHBz8rozVZ+TcFiFs0F3r7nUJd7FRkVSxk8u4OpoK226mi49MwexHOR2ibP9MFvRUaLilcQQ==",
       "path": "microsoft.extensions.configuration.abstractions/7.0.0",
       "hashPath": "microsoft.extensions.configuration.abstractions.7.0.0.nupkg.sha512"
+    },
+    "Microsoft.Extensions.Configuration.AzureAppConfiguration/6.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-oRCr8qqBp/37CXttfgbEWnPznHy0/ZCkgNVFFQ5cnXGvG8TBWicnAK032opyrbGIH3n2jYSg/PvIw7aLoOTy3Q==",
+      "path": "microsoft.extensions.configuration.azureappconfiguration/6.0.0",
+      "hashPath": "microsoft.extensions.configuration.azureappconfiguration.6.0.0.nupkg.sha512"
     },
     "Microsoft.Extensions.DependencyInjection/7.0.0": {
       "type": "package",
@@ -215,19 +370,68 @@
       "path": "microsoft.extensions.primitives/7.0.0",
       "hashPath": "microsoft.extensions.primitives.7.0.0.nupkg.sha512"
     },
-    "Npgsql/7.0.2": {
+    "Npgsql/7.0.4": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-/k12hfmg4PI0IU2UTLN6n0s/FKUfox8+RdWtzgADYZoyks7GH82WLyXm27eeqatsi/nmiK9lO3HyULlTD87szg==",
-      "path": "npgsql/7.0.2",
-      "hashPath": "npgsql.7.0.2.nupkg.sha512"
+      "sha512": "sha512-7UVPYy2RP0ci04PED1tc9ZCaTw/DfSdSkLiGEFCAvwMwsgA/bAluj1liNzP1IpN0MFofnOF0cm1zJfmbEuCehg==",
+      "path": "npgsql/7.0.4",
+      "hashPath": "npgsql.7.0.4.nupkg.sha512"
     },
-    "Npgsql.EntityFrameworkCore.PostgreSQL/7.0.3": {
+    "Npgsql.EntityFrameworkCore.PostgreSQL/7.0.4": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-3iVz7vcPAZt6iBSjJ8XyjtIP19jilNOJqTiTCs2UHWhpTyP+FbNhnzCBE/oyD3n49McmmenjKpva+yTy7q1z/g==",
-      "path": "npgsql.entityframeworkcore.postgresql/7.0.3",
-      "hashPath": "npgsql.entityframeworkcore.postgresql.7.0.3.nupkg.sha512"
+      "sha512": "sha512-ZYMtyG6pmLtUsFAx0/XaIlVkJM+1gArWEKD55cLLxiVlGScAphjiGj+G7Gk16yg5lhhdWx+bgXWpIUISXuS33g==",
+      "path": "npgsql.entityframeworkcore.postgresql/7.0.4",
+      "hashPath": "npgsql.entityframeworkcore.postgresql.7.0.4.nupkg.sha512"
+    },
+    "System.Diagnostics.DiagnosticSource/4.6.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-mbBgoR0rRfl2uimsZ2avZY8g7Xnh1Mza0rJZLPcxqiMWlkGukjmRkuMJ/er+AhQuiRIh80CR/Hpeztr80seV5g==",
+      "path": "system.diagnostics.diagnosticsource/4.6.0",
+      "hashPath": "system.diagnostics.diagnosticsource.4.6.0.nupkg.sha512"
+    },
+    "System.Memory/4.5.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-1MbJTHS1lZ4bS4FmsJjnuGJOu88ZzTT2rLvrhW7Ygic+pC0NWA+3hgAen0HRdsocuQXCkUTdFn9yHJJhsijDXw==",
+      "path": "system.memory/4.5.4",
+      "hashPath": "system.memory.4.5.4.nupkg.sha512"
+    },
+    "System.Memory.Data/1.0.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-JGkzeqgBsiZwKJZ1IxPNsDFZDhUvuEdX8L8BDC8N3KOj+6zMcNU28CNN59TpZE/VJYy9cP+5M+sbxtWJx3/xtw==",
+      "path": "system.memory.data/1.0.2",
+      "hashPath": "system.memory.data.1.0.2.nupkg.sha512"
+    },
+    "System.Numerics.Vectors/4.5.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-QQTlPTl06J/iiDbJCiepZ4H//BVraReU4O4EoRw1U02H5TLUIT7xn3GnDp9AXPSlJUDyFs4uWjWafNX6WrAojQ==",
+      "path": "system.numerics.vectors/4.5.0",
+      "hashPath": "system.numerics.vectors.4.5.0.nupkg.sha512"
+    },
+    "System.Text.Encodings.Web/4.7.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-iTUgB/WtrZ1sWZs84F2hwyQhiRH6QNjQv2DkwrH+WP6RoFga2Q1m3f9/Q7FG8cck8AdHitQkmkXSY8qylcDmuA==",
+      "path": "system.text.encodings.web/4.7.2",
+      "hashPath": "system.text.encodings.web.4.7.2.nupkg.sha512"
+    },
+    "System.Text.Json/4.7.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-TcMd95wcrubm9nHvJEQs70rC0H/8omiSGGpU4FQ/ZA1URIqD4pjmFJh2Mfv1yH1eHgJDWTi2hMDXwTET+zOOyg==",
+      "path": "system.text.json/4.7.2",
+      "hashPath": "system.text.json.4.7.2.nupkg.sha512"
+    },
+    "System.Threading.Tasks.Extensions/4.5.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-zteT+G8xuGu6mS+mzDzYXbzS7rd3K6Fjb9RiZlYlJPam2/hU7JCBZBVEcywNuR+oZ1ncTvc/cq0faRr3P01OVg==",
+      "path": "system.threading.tasks.extensions/4.5.4",
+      "hashPath": "system.threading.tasks.extensions.4.5.4.nupkg.sha512"
     }
   }
 }

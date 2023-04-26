@@ -1,23 +1,4 @@
-  .footer {
-    position: relative !important;
-    width: 100%;
-    white-space: nowrap;
-    line-height: 60px;
-  }
-  
-  .page-container {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-  }
-  .content {
-      flex-grow: 1;
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-  }
-  
-  
+
   h1 {
     text-align: center;
     color: #E83D84;
