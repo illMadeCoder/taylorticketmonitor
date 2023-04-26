@@ -1,21 +1,49 @@
 html {
   font-size: 14px;
+  margin-top: 2em;
+}
+
+h1 {
+    text-align: center;
+    color: #E83D84;
+}
+
+.selectedPairs {
+    min-height: 2rem;
+}
+
+
+
+.tag {
+    display: inline-block;
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 15px;
+    padding: 5px 10px;
+    margin: 5px;
+    cursor: pointer;
+}
+
+.tag::after {
+    content: "×";
+    font-size: 16px;
+    font-weight: bold;
+    margin-left: 5px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
+    html {
+        font-size: 16px;
+    }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
+    .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+        box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+    }
 
-html {
-  position: relative;
-  min-height: 100%;
-}
+    html {
+        position: relative;
+        min-height: 100%;
+    }
 
     /* Cute scrollbar styling */
     ::-webkit-scrollbar {
@@ -31,11 +59,11 @@ html {
         border: 3px solid #FFEBF7;
     }
 
-body {
-  margin-bottom: 60px;
-  background-color: #3f0026;
-
-}
+    body {
+    margin-bottom: 60px;
+    background-color: #3f0026;
+    
+    }
 
 
 
@@ -99,16 +127,18 @@ body {
     }
 
     body {
-        font-family: 'Comic Sans MS', sans-serif;
+        font-family: 'Yeseva One', cursive;
         background-color: #3f0026;
-        color: white;
+        color: white;        
     }
+
     h1 {
         text-align: center;
         color: #E83D84;
         font-size: 2.5rem;
         margin-top: 2rem;
         margin-bottom: 1rem;
+        font-family: 'Yeseva One', cursive;
     }
     table {
         width: 100%;
