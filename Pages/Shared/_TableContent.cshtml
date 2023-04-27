@@ -80,10 +80,10 @@
     <h3>Known issues 🙈</h3>
     As of 04/26/2023:
     <ul>        
-        <li>No info on removed tickets yet. We're on it! ✨</li>
+        <li>✅ availability is in testing, don't trust it too much!</li>
         <li>Occasionally, an image might be wrong. 🤷‍♀️</li>
         <li>Don't forget to refresh for latest price changes! 🔄</li>        
-        <li>This entire app was built fast with duct tape, please report any issues</li>
+        <li>We're only tracking tickets at a reasonably low price at the moment.</li>
     </ul>
     <h3>Tip Jar 💖</h3>
     <p>Tips on Venmo @@jasminesutton8 are appreciated but not expected. 💗<br>They help with server costs, but we're just happy to help you find tickets! </p>
@@ -104,7 +104,8 @@
                 <th class="center">💺 section</th>
                 <th class="center">👯 quantity</th>
                 <th class="center">🔗 event</th>
-                <th class="center">🕒 observed</th>                                
+                <th class="center">🕒 observed</th>                          
+                <th class="center">✅ availability</th>
                 <th class="center">💵 cost</th>
                 <th class="center">📷 img</th>
             </tr>
@@ -127,7 +128,8 @@
                 <td data-label="💺">@item.section</td>
                 <td data-label="👯">@quantity</td>
                 <td data-label="🔗"><a href="@item.url">@city @date</a></td>
-                <td data-label="🕒">@GetRelativeTime(item.insertdatetime)</td>                                        
+                <td data-label="🕒">@GetRelativeTime(item.insertdatetime)</td>                            
+                <td data-label="✅">@(!Model.RmEvents.Any(e => e.rowid == item.rowid && e.url == item.url) ? "available" : "unavailable")</td>            
                 <td data-label="💵">@(prevprice == 0 ? "new" : $"${prevprice}") -> $@item.price</td>      
                 <td data-label="📷" class="image-cell"><img src="@item.img" loading="lazy"></td>
             </tr>

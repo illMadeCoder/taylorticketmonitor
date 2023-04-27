@@ -86,7 +86,7 @@ public class IndexModel : PageModel
             };
         }).ToList();
 
-
+        EventsViewModel.RmEvents = _context.rmEvents.ToList();
     }
 
     private void LogUserIpAddress()
