@@ -65,13 +65,13 @@ public class IndexModel : PageModel
             Console.WriteLine(location);
             var firstWord = location.Split(" ").First();
             Console.WriteLine(firstWord);
-            var query = _context.events.Where(x => x.url.Contains(firstWord)).OrderByDescending(x => x.id).Take(1000).ToList();
+            var query = _context.events.Where(x => x.url.Contains(firstWord)).OrderByDescending(x => x.id).Take(100).ToList();
             EventsViewModel.Events = EventsViewModel.Events.Concat(query).ToList();
         }
 
         // Assuming Events is a List<Event>
         EventsViewModel.Events = EventsViewModel.Events.OrderByDescending(x => x.id).ToList();
-        //Console.WriteLine(string.Join(",", EventsViewModel.Events.Select(x => x.id)));
+
         EventsViewModel.EventPrevPrice = EventsViewModel.Events.Select(x =>
         {
             var previousEvent = EventsViewModel.Events
