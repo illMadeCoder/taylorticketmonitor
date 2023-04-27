@@ -19,19 +19,26 @@
     <div class="row">
         <div class="col-12 col-md-6">
             <select class="form-control" id="locationSelect" onchange="updateDates()">
-                <option value="">Choose a location</option>
+                <option value="">Location</option>
                 @foreach (var location in Model.LocationDays.Select(ld => ld.location).Distinct())
                 {
                     <option value="@location">@location</option>
                 }
             </select>
         </div>
-        <div class="col-12 col-md-6">
+        <div class="col-12 col-md-3">
             <select class="form-control" id="dateSelect" disabled onchange="addLocationDatePair()">
-                <option value="">Choose a date</option>
+                <option value="">Date</option>
                 <option value="all">All Dates</option>
             </select>
         </div>
+        <div class="col-12 col-md-3">
+            <select class="form-control" id="quantitySelect" onchange="addLocationDatePair()">
+                <option value="1">Seat Quantity 1</option>
+                <option value="2">Seat Quantity 2</option>
+                <option value="3">Seat Quantity 3</option>
+            </select>
+        </div>        
     </div>
     <div class="row">
         <div class="col-12">
@@ -50,34 +57,44 @@
         const parts = date.split('-');
         return `${parts[0].padStart(2, '0')}-${parts[1].padStart(2, '0')}`;
     }
-    function filterTableRows() {
-        const tableRows = document.querySelectorAll('.responsive-table table tbody tr');
-        const datePairs = new Set();
+    function standardizeLocation(location) {
+        const cityPattern = /^(.*?)(?: [A-Z]{2})?$/;
+        const cityMatch = location.match(cityPattern);
 
-        // Regular expression to extract the date from the standard format
-        const datePattern = /locationDatePair-.*? (\d+-\d+)$/;
-
-        // Collect date pairs from local storage
-        for (let i = 0; i < localStorage.length; i++) {
-            const key = localStorage.key(i);
-            if (key.startsWith('locationDatePair-')) {
-                const dateMatch = key.match(datePattern);
-                if (dateMatch) {
-                    datePairs.add(dateMatch[1]); // Add only the date part
-                }
-            }
+        if (cityMatch) {
+            return cityMatch[1].toLowerCase();
+        } else {
+            return location.toLowerCase();
         }
+    }
+function filterTableRows() {
+    const tableRows = document.querySelectorAll('.responsive-table table tbody tr');
+    const tags = document.querySelectorAll('#selectedPairs .tag');
 
-        // Show or hide table rows based on the date pairs
-        tableRows.forEach(row => {
-            const locationDate = formatDate(row.getAttribute('data-location-date'));
-            if (datePairs.has(locationDate)) {
-                row.style.display = ''; // Show the row
-            } else {
-                row.style.display = 'none'; // Hide the row
+    tableRows.forEach(row => {
+        const location = standardizeLocation(row.getAttribute('data-location'));
+        const date = formatDate(row.getAttribute('data-location-date'));
+        const quantity = parseInt(row.querySelector('td[data-label="👯"]').textContent);
+        let rowMatchesTag = false;
+
+        tags.forEach(tag => {
+            const tagInfo = tag.innerText.match(/(.*?) (\d+-\d+) \(Qty: (\d+)\)/);
+            const tagLocation = standardizeLocation(tagInfo[1]);
+            const tagDate = formatDate(tagInfo[2]);
+            const tagQuantity = parseInt(tagInfo[3]);
+
+            if (location === tagLocation && date === tagDate && quantity === tagQuantity) {
+                rowMatchesTag = true;
             }
         });
-    }
+
+        if (rowMatchesTag) {
+            row.style.display = '';
+        } else {
+            row.style.display = 'none';
+        }
+    });
+}
     function updateDates() {
         const locationSelect = document.getElementById("locationSelect");
         const dateSelect = document.getElementById("dateSelect");
@@ -108,8 +125,10 @@
 function addLocationDatePair() {
     const locationSelect = document.getElementById("locationSelect");
     const dateSelect = document.getElementById("dateSelect");
+    const quantitySelect = document.getElementById("quantitySelect");
+    const selectedSeatQuantity = quantitySelect.value;
 
-    if (locationSelect.value && dateSelect.value) {
+    if (locationSelect.value && dateSelect.value && selectedSeatQuantity) {
         if (dateSelect.value === "all") {
             // Get all available dates for the selected location
             const availableDates = Array.from(dateSelect.options)
@@ -118,26 +137,27 @@ function addLocationDatePair() {
 
             // Add a tag for each available date
             for (const date of availableDates) {
-                const pair = `${locationSelect.value} ${date}`;
+                const pair = `${locationSelect.value} ${date} (Qty: ${selectedSeatQuantity})`;
                 const storageKey = `locationDatePair-${pair}`;
 
                 // Check if the item already exists in local storage
                 if (!localStorage.getItem(storageKey)) {
                     localStorage.setItem(storageKey, pair);
                     addTag(pair);
+                    load();
                 }
             }
         } else {
-            const pair = `${locationSelect.value} ${dateSelect.value}`;
+            const pair = `${locationSelect.value} ${dateSelect.value} (Qty: ${selectedSeatQuantity})`;
             const storageKey = `locationDatePair-${pair}`;
 
             // Check if the item already exists in local storage
             if (!localStorage.getItem(storageKey)) {
                 localStorage.setItem(storageKey, pair);
                 addTag(pair);
+                load();
             }
         }
-        load();
     }
 }
 
@@ -164,9 +184,9 @@ function updateTableContent(content) {
     function load() {
         const selectedPairs = document.getElementById("selectedPairs");
         var selectedLocationDayPairs = Array.from(selectedPairs.children).map(tag => {
-            const parts = tag.innerText.split(' ');
+            const parts = tag.getAttribute("data-pair").split(" "); // Use the data-pair attribute instead of innerText
             return {
-                Location: parts.slice(0, -2).join(' ').toLowerCase(),
+                Location: parts.slice(0, -1).join(" ").toLowerCase(),
                 Day: parts[parts.length - 1]
             };
         });
@@ -197,10 +217,17 @@ function updateTableContent(content) {
         });
     }
 
-    function addTag(pair, load=true) {
-        const selectedPairs = document.getElementById("selectedPairs");
+function addTag(pair, load = true) {
+    const selectedPairs = document.getElementById("selectedPairs");
+    
+    // Check if the tag already exists
+    const existingTags = Array.from(selectedPairs.querySelectorAll('.tag'));
+    const tagExists = existingTags.some(existingTag => existingTag.innerText === pair);
+
+    if (!tagExists) {
         const tag = document.createElement("div");
         tag.className = "tag";
+        tag.setAttribute("data-pair", pair.split(" (Qty:")[0]); // Add the data-pair attribute
         tag.innerText = pair;
         tag.onclick = function () {
             removeTag(tag, pair);
@@ -208,6 +235,7 @@ function updateTableContent(content) {
         selectedPairs.appendChild(tag);
         filterTableRows();
     }
+}
 
 function removeTag(tag, pair) {
     tag.remove();

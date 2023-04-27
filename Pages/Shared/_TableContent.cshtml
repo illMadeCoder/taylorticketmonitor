@@ -123,7 +123,7 @@
             string date = dateMatch.Success ? dateMatch.Groups[1].Value : "Unknown";
             string quantity = quantityMatch.Success ? quantityMatch.Groups[1].Value : "Unknown";
 
-            <tr data-location-date="@date">
+            <tr data-location="@city" data-location-date="@date">
                 <td data-label="💺">@item.section</td>
                 <td data-label="👯">@quantity</td>
                 <td data-label="🔗"><a href="@item.url">@city @date</a></td>
