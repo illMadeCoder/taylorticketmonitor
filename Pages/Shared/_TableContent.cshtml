@@ -79,11 +79,11 @@
     
     <h3>Known issues 🙈</h3>
     As of 04/26/2023:
-    <ul>
-        <li>Currently only supports single seating. 💺</li>
+    <ul>        
         <li>No info on removed tickets yet. We're on it! ✨</li>
         <li>Occasionally, an image might be wrong. 🤷‍♀️</li>
         <li>Don't forget to refresh for latest price changes! 🔄</li>        
+        <li>Seat quantity is not a filter yet, but is displayed 👯</li>
     </ul>
     <h3>Tip Jar 💖</h3>
     <p>Tips on Venmo @@jasminesutton8 are appreciated but not expected. 💗<br>They help with server costs, but we're just happy to help you find tickets! </p>
@@ -102,6 +102,7 @@
         <thead>
             <tr>
                 <th class="center">💺 section</th>
+                <th class="center">👯 quantity</th>
                 <th class="center">🔗 event</th>
                 <th class="center">🕒 observed</th>                                
                 <th class="center">💵 cost</th>
@@ -114,12 +115,17 @@
             var prevprice = Model.EventPrevPrice.First(x => x.id == item.id).prevprice;
             string cityPattern = @"taylor-swift-([\w-]+)-tickets";
             string datePattern = @"tickets-(\d+-\d+)";
+            string quantityPattern = @"quantity=(\d)";
             Match cityMatch = Regex.Match(item.url, cityPattern);
             Match dateMatch = Regex.Match(item.url, datePattern);
+            Match quantityMatch = Regex.Match(item.url, quantityPattern);
             string city = cityMatch.Success ? cityMatch.Groups[1].Value : "Unknown";
             string date = dateMatch.Success ? dateMatch.Groups[1].Value : "Unknown";
+            string quantity = quantityMatch.Success ? quantityMatch.Groups[1].Value : "Unknown";
+
             <tr data-location-date="@date">
                 <td data-label="💺">@item.section</td>
+                <td data-label="👯">@quantity</td>
                 <td data-label="🔗"><a href="@item.url">@city @date</a></td>
                 <td data-label="🕒">@GetRelativeTime(item.insertdatetime)</td>                                        
                 <td data-label="💵">@(prevprice == 0 ? "new" : $"${prevprice}") -> $@item.price</td>      
