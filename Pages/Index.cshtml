@@ -57,33 +57,33 @@
         const parts = date.split('-');
         return `${parts[0].padStart(2, '0')}-${parts[1].padStart(2, '0')}`;
     }
-    function standardizeLocation(location) {
-        const cityPattern = /^(.*?)(?: [A-Z]{2})?$/;
-        const cityMatch = location.match(cityPattern);
+function standardizeLocation(location) {
+    const cityPattern = /^(.*?)(?: [A-Z]{2})?$/;
+    const cityMatch = location.match(cityPattern);
 
-        if (cityMatch) {
-            return cityMatch[1].toLowerCase();
-        } else {
-            return location.toLowerCase();
-        }
+    if (cityMatch) {
+        return cityMatch[1].toLowerCase();
+    } else {
+        return location.toLowerCase();
     }
+}
 function filterTableRows() {
     const tableRows = document.querySelectorAll('.responsive-table table tbody tr');
     const tags = document.querySelectorAll('#selectedPairs .tag');
 
 tableRows.forEach(row => {
-    const location = standardizeLocation(row.getAttribute('data-location')).replace(/-/g, ' '); // Replace hyphens with spaces
+    const location = standardizeLocation(row.getAttribute('data-location'));
     const date = formatDate(row.getAttribute('data-location-date'));
     const quantity = parseInt(row.querySelector('td[data-label="👯"]').textContent);
     let rowMatchesTag = false;
 
     tags.forEach(tag => {
         const tagInfo = tag.innerText.match(/(.*?) (\d+-\d+) \(Qty: (\d+)\)/);
-        const tagLocation = standardizeLocation(tagInfo[1]).replace(/-/g, ' '); // Replace hyphens with spaces
+        const tagLocation = standardizeLocation(tagInfo[1]);
         const tagDate = formatDate(tagInfo[2]);
         const tagQuantity = parseInt(tagInfo[3]);
 
-        if (location === tagLocation && date === tagDate && quantity === tagQuantity) {
+        if (date === tagDate && quantity === tagQuantity) {
             rowMatchesTag = true;
         }
     });
