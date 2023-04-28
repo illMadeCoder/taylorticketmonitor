@@ -106,7 +106,10 @@ public class IndexModel : PageModel
     private void LogUserIpAddress()
     {
         var userIpAddress = _httpContextAccessor.HttpContext.Connection.RemoteIpAddress;
-        _context.userIPs.Add(new UserIPs { ip = userIpAddress.ToString() });
+        var request = _httpContextAccessor.HttpContext.Request;
+        var requestedUrl = $"{request.Scheme}://{request.Host}{request.Path}{request.QueryString}";
+
+        _context.userIPs.Add(new UserIPs { ip = userIpAddress.ToString(), url = requestedUrl });
         _context.SaveChanges();
     }
-}
+    }
