@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Npgsql.EntityFrameworkCore.PostgreSQL;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 public class IndexModel : PageModel
 {
@@ -70,8 +71,21 @@ public class IndexModel : PageModel
         }
 
         // Assuming Events is a List<Event>
-        EventsViewModel.Events = EventsViewModel.Events.OrderByDescending(x => x.id).ToList();
+        var groupedEvents = EventsViewModel.Events.OrderByDescending(x => x.id)
+            .GroupBy(x =>
+            {
+                var match = Regex.Match(x.url, @"quantity=(\d)");
+                return match.Success ? int.Parse(match.Groups[1].Value) : throw new ArgumentException();
+            })    
+            .Select(x => x.OrderByDescending(x => x.id).Take(100))
+            .SelectMany(x => x)
+            .OrderByDescending(x => x.id)
+            .ToList();
 
+        Console.WriteLine(string.Join(",", groupedEvents.Select(x => x.id)));
+
+        EventsViewModel.Events = groupedEvents;
+        
         EventsViewModel.EventPrevPrice = EventsViewModel.Events.Select(x =>
         {
             var previousEvent = EventsViewModel.Events
