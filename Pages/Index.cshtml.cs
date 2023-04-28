@@ -15,15 +15,18 @@ public class IndexModel : PageModel
     {
         _context = context;
         _httpContextAccessor = httpContextAccessor;
+        LocationsQueried = new List<string>();
     }
 
     public EventsViewModel EventsViewModel { get; set; }
     public IList<LocationDays> LocationDays { get; set; }
+    public IList<string> LocationsQueried { get; set; }
 
     public PartialViewResult OnGetTableContent(string locationDayPairs)
     {
         var locationDays = ParseLocationDayPairs(locationDayPairs);
         LoadEvents(locationDays);
+        LogUserIpAddress();
         return Partial("_TableContent", EventsViewModel);
     }
 
@@ -68,6 +71,7 @@ public class IndexModel : PageModel
             Console.WriteLine(firstWord);
             var query = _context.events.Where(x => x.url.Contains(firstWord)).OrderByDescending(x => x.id).ToList();
             EventsViewModel.Events = EventsViewModel.Events.Concat(query).ToList();
+            LocationsQueried.Add(firstWord);            
         }
 
         // Assuming Events is a List<Event>
@@ -82,7 +86,7 @@ public class IndexModel : PageModel
             .OrderByDescending(x => x.id)
             .ToList();
 
-        Console.WriteLine(string.Join(",", groupedEvents.Select(x => x.id)));
+        //Console.WriteLine(string.Join(",", groupedEvents.Select(x => x.id)));
 
         EventsViewModel.Events = groupedEvents;
         
@@ -108,8 +112,9 @@ public class IndexModel : PageModel
         var userIpAddress = _httpContextAccessor.HttpContext.Connection.RemoteIpAddress;
         var request = _httpContextAccessor.HttpContext.Request;
         var requestedUrl = $"{request.Scheme}://{request.Host}{request.Path}{request.QueryString}";
-
-        _context.userIPs.Add(new UserIPs { ip = userIpAddress.ToString(), url = requestedUrl });
+        var locations = string.Join(",", LocationsQueried);
+        Console.WriteLine($"locations {locations}");
+        _context.userIPs.Add(new UserIPs { ip = userIpAddress.ToString(), url = requestedUrl, locations = locations});
         _context.SaveChanges();
     }
-    }
+   }
